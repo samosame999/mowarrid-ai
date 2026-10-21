@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mowarrid AI | المنصة التنفيذية لوكيل المشتريات الذاتي - دبي</title>
+    <title>Mowarrid | المنصة التنفيذية لوكيل المشتريات الذاتي - دبي</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #090d16; color: #f8fafc; }
+        body { font-family: 'Cairo', 'Plus Jakarta Sans', sans-serif; background-color: #090d16; color: #f8fafc; }
         .gold-gradient { background: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%); }
         .gold-text { 
             background: linear-gradient(135deg, #fceabb 0%, #f8b500 100%); 
@@ -24,17 +24,42 @@
         .wave-bar:nth-child(2n) { animation-duration: 0.5s; background-color: #10b981; }
         .wave-bar:nth-child(3n) { animation-duration: 0.9s; }
         .wave-paused .wave-bar { animation: none; height: 4px; opacity: 0.3; }
+        .lang-btn-active { background: rgba(212, 175, 55, 0.25) !important; border-color: #d4af37 !important; color: #fceabb !important; font-weight: 700; }
+        .po-lang-active { background: #090d16 !important; color: #fbbf24 !important; border-color: #d4af37 !important; font-weight: 700; }
+        @media print {
+            .no-print { display: none !important; }
+        }
     </style>
 </head>
 <body class="min-h-screen p-4 md:p-6">
 
+    <!-- Top Global Multilingual Bar -->
+    <div class="max-w-7xl mx-auto mb-3 pb-2 border-b border-gray-800/80 flex flex-wrap justify-between items-center gap-2 text-xs">
+        <div class="flex items-center gap-2 text-amber-400 font-semibold">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+            <span id="ui-global-badge">بوابة دبي العالمية للتوريد الذكي (تدعم المستثمرين بـ 7 لغات)</span>
+        </div>
+        <div class="flex flex-wrap items-center gap-1.5" id="langSelectorBar">
+            <span class="text-gray-400 text-[11px] mx-1" id="ui-lang-label">لغة الواجهة:</span>
+            <button onclick="switchUILanguage('ar')" data-lang="ar" class="lang-btn-active px-2 py-1 rounded bg-gray-900 border border-gray-700 text-[11px] hover:border-amber-500 transition cursor-pointer">🇦🇪 العربية</button>
+            <button onclick="switchUILanguage('en')" data-lang="en" class="px-2 py-1 rounded bg-gray-900 border border-gray-700 text-[11px] hover:border-amber-500 transition cursor-pointer">🇬🇧 EN</button>
+            <button onclick="switchUILanguage('fr')" data-lang="fr" class="px-2 py-1 rounded bg-gray-900 border border-gray-700 text-[11px] hover:border-amber-500 transition cursor-pointer">🇫🇷 FR</button>
+            <button onclick="switchUILanguage('es')" data-lang="es" class="px-2 py-1 rounded bg-gray-900 border border-gray-700 text-[11px] hover:border-amber-500 transition cursor-pointer">🇪🇸 ES</button>
+            <button onclick="switchUILanguage('ru')" data-lang="ru" class="px-2 py-1 rounded bg-gray-900 border border-gray-700 text-[11px] hover:border-amber-500 transition cursor-pointer">🇷🇺 RU</button>
+            <button onclick="switchUILanguage('zh')" data-lang="zh" class="px-2 py-1 rounded bg-gray-900 border border-gray-700 text-[11px] hover:border-amber-500 transition cursor-pointer">🇨🇳 中文</button>
+            <button onclick="switchUILanguage('ko')" data-lang="ko" class="px-2 py-1 rounded bg-gray-900 border border-gray-700 text-[11px] hover:border-amber-500 transition cursor-pointer">🇰🇷 한국어</button>
+        </div>
+    </div>
+
     <!-- Header -->
     <header class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center mb-6 pb-4 border-b border-gray-800">
         <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-xl gold-gradient flex items-center justify-center text-black font-black text-2xl shadow-lg">م</div>
+            <!-- Brand Logo: loads LOGO.jpg from project folder (C:\Users\SAM\Desktop\مشروع وكيل التجارة مورد\mowarrid_pro\LOGO.jpg) -->
+            <img src="LOGO.jpg" alt="MOWARRID" class="h-14 w-auto rounded-xl object-contain border border-amber-500/40 shadow-lg bg-[#090d16] p-1" onerror="if(this.src.indexOf('logo.png')===-1){this.src='logo.png';}else{this.style.display='none'; document.getElementById('fallbackLogo').style.display='flex';}">
+            <div id="fallbackLogo" style="display: none;" class="w-12 h-12 rounded-xl gold-gradient items-center justify-center text-black font-black text-2xl shadow-lg">م</div>
             <div>
-                <h1 class="text-2xl font-black tracking-wide">مُورّد <span class="gold-text">MOWARRID AI PRO</span></h1>
-                <p class="text-xs text-gray-400">نظام وكلاء ذكاء اصطناعي متكامل للمشتريات والتفاوض الصوتي والجمارك في دبي</p>
+                <h1 class="text-2xl font-black tracking-wide"><span id="ui-brand-ar">مُورّد</span> <span class="gold-text">MOWARRID PRO</span></h1>
+                <p id="ui-subtitle" class="text-xs text-gray-400">نظام وكلاء ذكاء اصطناعي متكامل للمشتريات والتفاوض الصوتي والجمارك في دبي</p>
             </div>
         </div>
         <div class="flex flex-wrap items-center gap-3 mt-4 md:mt-0">
@@ -52,20 +77,20 @@
     <!-- 4-Pillar Competition Progress Bar -->
     <section class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-3 mb-6">
         <div id="pillar-1" class="card-glass p-3 rounded-xl border-r-4 border-r-amber-500 step-active transition-all">
-            <div class="text-xs text-amber-400 font-bold">01. فهم مشكلة حقيقية</div>
-            <div class="text-sm font-semibold mt-1">تحليل طلبات الشراء والمواصفات</div>
+            <div id="ui-p1-title" class="text-xs text-amber-400 font-bold">01. فهم مشكلة حقيقية</div>
+            <div id="ui-p1-desc" class="text-sm font-semibold mt-1">تحليل طلبات الشراء والمواصفات</div>
         </div>
         <div id="pillar-2" class="card-glass p-3 rounded-xl opacity-50 transition-all">
-            <div class="text-xs text-amber-400 font-bold">02. التخطيط واتخاذ القرارات</div>
-            <div class="text-sm font-semibold mt-1">بناء استراتيجية البحث والتفاوض</div>
+            <div id="ui-p2-title" class="text-xs text-amber-400 font-bold">02. التخطيط واتخاذ القرارات</div>
+            <div id="ui-p2-desc" class="text-sm font-semibold mt-1">بناء استراتيجية البحث والتفاوض</div>
         </div>
         <div id="pillar-3" class="card-glass p-3 rounded-xl opacity-50 transition-all">
-            <div class="text-xs text-amber-400 font-bold">03. استخدام الأدوات</div>
-            <div class="text-sm font-semibold mt-1">قاعدة بيانات SQLite والجمارك والصوت</div>
+            <div id="ui-p3-title" class="text-xs text-amber-400 font-bold">03. استخدام الأدوات</div>
+            <div id="ui-p3-desc" class="text-sm font-semibold mt-1">قاعدة بيانات SQLite والجمارك والصوت</div>
         </div>
         <div id="pillar-4" class="card-glass p-3 rounded-xl opacity-50 transition-all">
-            <div class="text-xs text-amber-400 font-bold">04. تنفيذ المهام</div>
-            <div class="text-sm font-semibold mt-1">إتمام الصفقة وإصدار أمر الشراء (PO)</div>
+            <div id="ui-p4-title" class="text-xs text-amber-400 font-bold">04. تنفيذ المهام</div>
+            <div id="ui-p4-desc" class="text-sm font-semibold mt-1">إتمام الصفقة وإصدار أمر الشراء (PO)</div>
         </div>
     </section>
 
@@ -75,71 +100,87 @@
             <div class="card-glass p-5 rounded-2xl">
                 <div class="flex justify-between items-center mb-3">
                     <h2 class="text-lg font-bold flex items-center gap-2">
-                        <span class="text-amber-400">●</span> إدخال طلب التوريد (RFQ)
+                        <span class="text-amber-400">●</span> <span id="ui-rfq-heading">إدخال طلب التوريد (RFQ)</span>
                     </h2>
                     <button onclick="startSpeechToText()" id="micBtn" class="text-xs bg-gray-800 hover:bg-gray-700 text-amber-400 px-2.5 py-1 rounded-lg border border-gray-700 flex items-center gap-1 cursor-pointer">
-                        <span>🎙️</span> إملاء صوتي
+                        <span>🎙️</span> <span id="ui-mic-btn">إملاء صوتي</span>
                     </button>
                 </div>
 
-                <label class="block text-xs text-gray-400 mb-1">اختر القطاع التجاري في دبي:</label>
+                <label id="ui-sector-label" class="block text-xs text-gray-400 mb-1">اختر القطاع التجاري في دبي:</label>
                 <select id="scenarioSelect" onchange="loadScenario()" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-sm mb-3 text-white focus:border-amber-500 outline-none">
-                    <option value="hotel">قطاع الضيافة والفنادق (دبي مارينا)</option>
-                    <option value="construction">قطاع المقاولات والطاقة (الخليج التجاري)</option>
-                    <option value="medical">القطاع الطبي والعيادات (جميرا / DHCC)</option>
+                    <option id="opt-hotel" value="hotel">قطاع الضيافة والفنادق (دبي مارينا)</option>
+                    <option id="opt-construction" value="construction">قطاع المقاولات والطاقة (الخليج التجاري)</option>
+                    <option id="opt-medical" value="medical">القطاع الطبي والعيادات (جميرا / DHCC)</option>
                 </select>
 
                 <!-- Document Upload Tool (OCR) -->
                 <div class="mb-3 p-2.5 rounded-xl bg-gray-900/90 border border-gray-800">
-                    <label class="block text-[11px] text-amber-400 font-bold mb-1.5">📄 أداة قراءة الفواتير وكراسات الشروط (Vision OCR):</label>
+                    <label id="ui-ocr-label" class="block text-[11px] text-amber-400 font-bold mb-1.5">📄 أداة قراءة الفواتير وكراسات الشروط (Vision OCR):</label>
                     <div class="flex items-center gap-2">
                         <input type="file" id="rfqFile" accept=".pdf,.png,.jpg,.jpeg,.xlsx" class="w-full text-[11px] text-gray-400 file:ml-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-amber-500/20 file:text-amber-300 hover:file:bg-amber-500/30 cursor-pointer">
-                        <button onclick="uploadDocument(event)" type="button" class="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-black text-xs font-bold rounded-lg transition cursor-pointer shrink-0">
+                        <button id="ui-ocr-btn" onclick="uploadDocument(event)" type="button" class="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-black text-xs font-bold rounded-lg transition cursor-pointer shrink-0">
                             تحليل الملف
                         </button>
                     </div>
                 </div>
 
-                <label class="block text-xs text-gray-400 mb-1">تفاصيل الطلب والمواصفات:</label>
+                <label id="ui-details-label" class="block text-xs text-gray-400 mb-1">تفاصيل الطلب والمواصفات:</label>
                 <textarea id="rfqInput" rows="3" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-sm text-gray-200 mb-3 focus:border-amber-500 outline-none">مطلوب توريد عاجل لـ 15 ماكينة إسبريسو تجارية (3 رؤوس) + 20 ثلاجة عرض فندقية لمشروع فندق جديد في دبي مارينا. التوصيل شامل التركيب.</textarea>
 
-                <div class="grid grid-cols-2 gap-3 mb-4">
+                <div class="grid grid-cols-2 gap-3 mb-3">
                     <div>
-                        <label class="block text-xs text-gray-400 mb-1">الميزانية المستهدفة (AED):</label>
+                        <label id="ui-budget-label" class="block text-xs text-gray-400 mb-1">الميزانية المستهدفة (AED):</label>
                         <input id="budgetInput" type="number" value="280000" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-sm text-amber-400 font-bold">
                     </div>
                     <div>
-                        <label class="block text-xs text-gray-400 mb-1">أولوية القرار للوكيل:</label>
+                        <label id="ui-priority-label" class="block text-xs text-gray-400 mb-1">أولوية القرار للوكيل:</label>
                         <select id="priorityInput" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-sm text-white">
-                            <option value="cost">أقل سعر + خصم نقدي</option>
-                            <option value="speed">توصيل فوري (مستودعات دبي)</option>
+                            <option id="opt-cost" value="cost">أقل سعر + خصم نقدي</option>
+                            <option id="opt-speed" value="speed">توصيل فوري (مستودعات دبي)</option>
                         </select>
                     </div>
                 </div>
 
+                <!-- Bilingual Negotiation Call Selector (Arabic / English) -->
+                <div class="mb-4 p-2.5 rounded-xl bg-gray-900/90 border border-amber-500/30">
+                    <label id="ui-call-lang-label" class="block text-[11px] text-amber-400 font-bold mb-1.5">📞 لغة التفاوض الصوتي مع الموردين في دبي:</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="flex items-center gap-2 p-2 rounded-lg bg-gray-950 border border-gray-800 cursor-pointer hover:border-amber-500/60 transition">
+                            <input type="radio" name="negotiationLang" value="ar" checked class="accent-amber-500">
+                            <span id="ui-call-ar" class="text-xs font-semibold text-gray-200">🇦🇪 تفاوض بالعربية</span>
+                        </label>
+                        <label class="flex items-center gap-2 p-2 rounded-lg bg-gray-950 border border-gray-800 cursor-pointer hover:border-amber-500/60 transition">
+                            <input type="radio" name="negotiationLang" value="en" class="accent-amber-500">
+                            <span id="ui-call-en" class="text-xs font-semibold text-gray-200">🇬🇧 Negotiate in EN</span>
+                        </label>
+                    </div>
+                    <p id="ui-call-hint" class="text-[10px] text-gray-400 mt-1.5">* يدعم الموردين المواطنين والعرب (بالعربية) والموردين الأجانب والدوليين (بالإنجليزية).</p>
+                </div>
+
                 <button id="startBtn" onclick="runAutonomousAgent()" class="w-full gold-gradient text-black font-black py-3 rounded-xl shadow-lg hover:opacity-90 transition flex items-center justify-center gap-2 text-base cursor-pointer">
-                    <span>⚡ تشغيل الوكيل والاتصال بقاعدة البيانات</span>
+                    <span id="ui-start-btn">⚡ تشغيل الوكيل والاتصال بقاعدة البيانات</span>
                 </button>
             </div>
 
             <!-- Active Tools Status -->
             <div class="card-glass p-5 rounded-2xl">
-                <h3 class="text-sm font-bold text-gray-300 mb-3">حالة أدوات الوكيل (Active Agent Tools):</h3>
+                <h3 id="ui-tools-heading" class="text-sm font-bold text-gray-300 mb-3">حالة أدوات الوكيل (Active Agent Tools):</h3>
                 <div class="space-y-2 text-xs">
                     <div id="tool-ocr" class="flex justify-between items-center p-2 rounded bg-gray-900/80 border border-gray-800">
-                        <span>📄 محلل المستندات والمواصفات (Vision OCR)</span>
+                        <span id="ui-tool-ocr-name">📄 محلل المستندات والمواصفات (Vision OCR)</span>
                         <span class="text-gray-500 status-badge">جاهز</span>
                     </div>
                     <div id="tool-db" class="flex justify-between items-center p-2 rounded bg-gray-900/80 border border-gray-800">
-                        <span>🏢 قاعدة بيانات تجار دبي (SQLite DB)</span>
+                        <span id="ui-tool-db-name">🏢 قاعدة بيانات تجار دبي (SQLite DB)</span>
                         <span class="text-gray-500 status-badge">جاهز</span>
                     </div>
                     <div id="tool-customs" class="flex justify-between items-center p-2 rounded bg-gray-900/80 border border-gray-800">
-                        <span>🛃 حاسبة جمارك دبي (HS Code API)</span>
+                        <span id="ui-tool-customs-name">🛃 حاسبة جمارك دبي (HS Code API)</span>
                         <span class="text-gray-500 status-badge">جاهز</span>
                     </div>
                     <div id="tool-comm" class="flex justify-between items-center p-2 rounded bg-gray-900/80 border border-gray-800">
-                        <span>📞 تفاوض حي (WhatsApp & UAE SIP Voice)</span>
+                        <span id="ui-tool-comm-name">📞 تفاوض حي (WhatsApp & UAE SIP Voice)</span>
                         <span class="text-gray-500 status-badge">جاهز</span>
                     </div>
                 </div>
@@ -152,7 +193,7 @@
                 <!-- Agent Reasoning Terminal -->
                 <div class="card-glass p-4 rounded-2xl flex flex-col h-80">
                     <div class="flex justify-between items-center mb-2 pb-2 border-b border-gray-800">
-                        <span class="text-xs font-bold text-amber-400">🧠 عقل الوكيل: التخطيط واتخاذ القرارات</span>
+                        <span id="ui-brain-title" class="text-xs font-bold text-amber-400">🧠 عقل الوكيل: التخطيط واتخاذ القرارات</span>
                         <span id="agentStatus" class="text-[11px] text-gray-400">متصل بالخادم...</span>
                     </div>
                     <div id="reasoningLog" class="terminal-scroll flex-1 overflow-y-auto space-y-2 text-xs font-mono text-gray-300 p-1">
@@ -163,8 +204,8 @@
                 <!-- Live Multi-Channel & Real-Time Voice Negotiation -->
                 <div class="card-glass p-4 rounded-2xl flex flex-col h-80 relative overflow-hidden">
                     <div class="flex justify-between items-center mb-2 pb-2 border-b border-gray-800">
-                        <span class="text-xs font-bold text-emerald-400">💬 غرفة التفاوض الحي (WhatsApp & SIP Voice)</span>
-                        <span class="text-[10px] bg-gray-800 px-2 py-0.5 rounded text-gray-300">متوافق مع TDRA الإمارات</span>
+                        <span id="ui-comms-title" class="text-xs font-bold text-emerald-400">💬 غرفة التفاوض الحي (WhatsApp & SIP Voice)</span>
+                        <span id="ui-tdra-badge" class="text-[10px] bg-gray-800 px-2 py-0.5 rounded text-gray-300">متوافق مع TDRA الإمارات</span>
                     </div>
                     <div id="liveCallBanner" class="hidden mb-2 p-2.5 rounded-xl bg-gradient-to-r from-amber-950/90 via-gray-900 to-emerald-950/90 border border-amber-500/50 flex items-center justify-between shadow-lg">
                         <div class="flex items-center gap-2.5">
@@ -183,7 +224,7 @@
                         </div>
                     </div>
                     <div id="commsLog" class="terminal-scroll flex-1 overflow-y-auto space-y-2.5 text-xs p-1">
-                        <div class="text-gray-500 text-center mt-10">لا توجد محادثات نشطة حالياً</div>
+                        <div id="ui-no-comms" class="text-gray-500 text-center mt-10">لا توجد محادثات نشطة حالياً</div>
                     </div>
                 </div>
             </div>
@@ -192,32 +233,32 @@
             <div class="card-glass p-5 rounded-2xl">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-base font-bold flex items-center gap-2">
-                        <span class="text-amber-400">📊</span> مصفوفة العروض المستخرجة من قاعدة البيانات (SQLite)
+                        <span class="text-amber-400">📊</span> <span id="ui-matrix-title">مصفوفة العروض المستخرجة من قاعدة البيانات (SQLite)</span>
                     </h3>
                     <span id="savingsBadge" class="hidden px-3 py-1 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-600 text-xs font-bold"></span>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="w-full text-right text-xs border-collapse">
+                    <table class="w-full text-right text-xs border-collapse" id="mainResultsTable">
                         <thead>
                             <tr class="border-b border-gray-800 text-gray-400">
-                                <th class="py-2 px-3">المورد في دبي</th>
-                                <th class="py-2 px-3">الرمز الجمركي</th>
-                                <th class="py-2 px-3">السعر الأولي</th>
-                                <th class="py-2 px-3">بعد التفاوض</th>
-                                <th class="py-2 px-3">شامل الضريبة (5%)</th>
-                                <th class="py-2 px-3">التوريد</th>
-                                <th class="py-2 px-3">القرار</th>
+                                <th id="th-vendor" class="py-2 px-3">المورد في دبي</th>
+                                <th id="th-hs" class="py-2 px-3">الرمز الجمركي</th>
+                                <th id="th-init" class="py-2 px-3">السعر الأولي</th>
+                                <th id="th-neg" class="py-2 px-3">بعد التفاوض</th>
+                                <th id="th-vat" class="py-2 px-3">شامل الضريبة (5%)</th>
+                                <th id="th-deliv" class="py-2 px-3">التوريد</th>
+                                <th id="th-dec" class="py-2 px-3">القرار</th>
                             </tr>
                         </thead>
                         <tbody id="resultsTable" class="divide-y divide-gray-800/60 text-gray-300">
-                            <tr><td colspan="7" class="py-8 text-center text-gray-500">اضغط على "تشغيل الوكيل" للبدء...</td></tr>
+                            <tr><td id="ui-table-empty" colspan="7" class="py-8 text-center text-gray-500">اضغط على "تشغيل الوكيل" للبدء...</td></tr>
                         </tbody>
                     </table>
                 </div>
 
                 <div id="finalActions" class="hidden mt-5 pt-4 border-t border-gray-800 flex flex-col sm:flex-row justify-between items-center gap-4">
                     <div id="finalRecommendationText" class="text-xs text-gray-300"></div>
-                    <button onclick="openPOModal()" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs cursor-pointer shrink-0">
+                    <button id="ui-po-btn" onclick="openPOModal()" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs cursor-pointer shrink-0">
                         📄 عرض واعتماد أمر الشراء النهائي (Official PO)
                     </button>
                 </div>
@@ -225,79 +266,726 @@
         </div>
     </main>
 
-    <!-- Official Purchase Order Modal -->
+    <!-- Official Purchase Order Modal (NOW 100% MULTILINGUAL WITH IN-MODAL LANGUAGE SWITCHER) -->
     <div id="poModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center p-4 z-50">
-        <div class="bg-white text-gray-900 max-w-2xl w-full rounded-2xl p-6 shadow-2xl">
+        <div id="poModalCard" class="bg-white text-gray-900 max-w-2xl w-full rounded-2xl p-6 shadow-2xl">
+            
+            <!-- In-Modal Language Switcher for Supplier/Investor PO Export -->
+            <div class="no-print flex flex-wrap justify-between items-center gap-2 mb-3 pb-2 border-b border-gray-200 text-[11px]">
+                <span id="ui-po-lang-switch-lbl" class="font-bold text-gray-600">🌐 لغة فاتورة وأمر الشراء للمورد (PO Language):</span>
+                <div class="flex flex-wrap gap-1" id="poLangSelectorBar">
+                    <button onclick="switchUILanguage('ar')" data-polang="ar" class="po-lang-active px-2 py-0.5 rounded border border-gray-300 bg-gray-100 text-gray-800 cursor-pointer">🇦🇪 AR</button>
+                    <button onclick="switchUILanguage('en')" data-polang="en" class="px-2 py-0.5 rounded border border-gray-300 bg-gray-100 text-gray-800 cursor-pointer">🇬🇧 EN</button>
+                    <button onclick="switchUILanguage('fr')" data-polang="fr" class="px-2 py-0.5 rounded border border-gray-300 bg-gray-100 text-gray-800 cursor-pointer">🇫🇷 FR</button>
+                    <button onclick="switchUILanguage('es')" data-polang="es" class="px-2 py-0.5 rounded border border-gray-300 bg-gray-100 text-gray-800 cursor-pointer">🇪🇸 ES</button>
+                    <button onclick="switchUILanguage('ru')" data-polang="ru" class="px-2 py-0.5 rounded border border-gray-300 bg-gray-100 text-gray-800 cursor-pointer">🇷🇺 RU</button>
+                    <button onclick="switchUILanguage('zh')" data-polang="zh" class="px-2 py-0.5 rounded border border-gray-300 bg-gray-100 text-gray-800 cursor-pointer">🇨🇳 ZH</button>
+                    <button onclick="switchUILanguage('ko')" data-polang="ko" class="px-2 py-0.5 rounded border border-gray-300 bg-gray-100 text-gray-800 cursor-pointer">🇰🇷 KO</button>
+                </div>
+            </div>
+
             <div class="flex justify-between items-start border-b pb-4 mb-4">
-                <div>
-                    <h2 class="text-xl font-black text-gray-900">أمر شراء رسمي | OFFICIAL PURCHASE ORDER</h2>
-                    <p class="text-xs text-gray-500">صادر آلياً وموثق عبر منصة مُورّد (Mowarrid AI Autonomous Agent)</p>
+                <div class="flex items-center gap-3">
+                    <img src="LOGO.jpg" alt="MOWARRID" class="h-12 w-auto rounded-lg bg-[#090d16] p-1 border border-amber-500/40" onerror="if(this.src.indexOf('logo.png')===-1){this.src='logo.png';}else{this.style.display='none';}">
+                    <div>
+                        <h2 id="ui-po-modal-title" class="text-xl font-black text-gray-900">أمر شراء رسمي | OFFICIAL PURCHASE ORDER</h2>
+                        <p id="ui-po-modal-sub" class="text-xs text-gray-500">صادر آلياً وموثق عبر منصة مُورّد (Mowarrid Autonomous Agent)</p>
+                    </div>
                 </div>
                 <div class="text-left text-xs">
                     <div class="font-bold text-amber-600">PO #: DXB-2026-9940</div>
-                    <div class="text-gray-500">التاريخ: 21 أكتوبر 2026</div>
+                    <div id="ui-po-date" class="text-gray-500">التاريخ: 21 أكتوبر 2026</div>
                 </div>
             </div>
             <div class="grid grid-cols-2 gap-4 text-xs mb-4 bg-gray-50 p-3 rounded-lg">
                 <div>
-                    <div class="font-bold text-gray-700">المورد الفائز (Vendor):</div>
+                    <div id="ui-po-vendor-lbl" class="font-bold text-gray-700">المورد الفائز (Vendor):</div>
                     <div id="poVendorName" class="font-bold text-gray-900 mt-0.5"></div>
                     <div id="poVendorZone" class="text-gray-600"></div>
                     <div id="poVendorLicense" class="text-gray-500"></div>
                 </div>
                 <div>
-                    <div class="font-bold text-gray-700">تفاصيل التخليص والتوصيل:</div>
+                    <div id="ui-po-customs-lbl" class="font-bold text-gray-700">تفاصيل التخليص والتوصيل:</div>
                     <div id="poHsCode" class="font-mono text-gray-900 mt-0.5"></div>
-                    <div>حالة الجمارك: معفى (توريد محلي موثق)</div>
+                    <div id="ui-po-customs-status">حالة الجمارك: معفى (توريد محلي موثق)</div>
                     <div id="poDeliveryTime" class="text-emerald-700 font-bold"></div>
                 </div>
             </div>
             <div class="bg-gray-100 p-3 rounded-lg text-xs mb-4">
-                <div class="font-bold text-gray-700 mb-1">بيان المطلوبات المعتمدة:</div>
+                <div id="ui-po-items-lbl" class="font-bold text-gray-700 mb-1">بيان المطلوبات المعتمدة:</div>
                 <div id="poItemsDesc" class="text-gray-800"></div>
             </div>
             <div class="flex justify-between items-center bg-emerald-50 p-3 rounded-lg border border-emerald-200 mb-4">
-                <span class="text-xs font-bold text-emerald-900">إجمالي المبلغ النهائي شامل ضريبة القيمة المضافة (5% VAT):</span>
+                <span id="ui-po-total-lbl" class="text-xs font-bold text-emerald-900">إجمالي المبلغ النهائي شامل ضريبة القيمة المضافة (5% VAT):</span>
                 <span id="poFinalTotal" class="text-lg font-black text-emerald-700"></span>
             </div>
-            <div class="flex justify-end gap-3">
-                <button onclick="window.print()" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg text-xs font-bold cursor-pointer">🖨️ طباعة / حفظ PDF</button>
-                <button onclick="closePOModal()" class="px-4 py-2 bg-gray-900 text-white rounded-lg text-xs font-bold cursor-pointer">إغلاق</button>
+            <div class="no-print flex justify-end gap-3">
+                <button id="ui-po-print" onclick="window.print()" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg text-xs font-bold cursor-pointer">🖨️ طباعة / حفظ PDF</button>
+                <button id="ui-po-close" onclick="closePOModal()" class="px-4 py-2 bg-gray-900 text-white rounded-lg text-xs font-bold cursor-pointer">إغلاق</button>
             </div>
         </div>
     </div>
 
     <script>
         let voiceEnabled = true;
+        let currentUILang = 'ar';
         let callTimerInterval = null;
         let callSeconds = 0;
+        let lastAgentData = null; // Stores the latest negotiation result so Matrix & PO re-translate dynamically!
         const API_BASE = "http://127.0.0.1:8000";
 
+        // Multilingual Scenarios (Preserving original Arabic + adding 6 languages)
         const scenarios = {
             hotel: {
-                text: "مطلوب توريد عاجل لـ 15 ماكينة إسبريسو تجارية (3 رؤوس) + 20 ثلاجة عرض فندقية لمشروع فندق جديد في دبي مارينا. التوصيل شامل التركيب.",
-                budget: 280000
+                budget: 280000,
+                ar: "مطلوب توريد عاجل لـ 15 ماكينة إسبريسو تجارية (3 رؤوس) + 20 ثلاجة عرض فندقية لمشروع فندق جديد في دبي مارينا. التوصيل شامل التركيب.",
+                en: "Urgent supply of 15 commercial espresso machines (3-group) + 20 hotel display fridges for a new hotel project in Dubai Marina. Delivery & installation included.",
+                fr: "Fourniture urgente de 15 machines à expresso commerciales + 20 réfrigérateurs d'exposition pour un nouvel hôtel à Dubai Marina. Livraison et installation incluses.",
+                es: "Suministro urgente de 15 máquinas de espresso comerciales + 20 refrigeradores de exhibición para nuevo hotel en Dubai Marina. Entrega e instalación incluidas.",
+                ru: "Срочная поставка 15 коммерческих эспрессо-машин + 20 гостиничных холодильников для нового отеля в Дубай Марина. Включая доставку и установку.",
+                zh: "紧急供应15台商用三头意式咖啡机 + 20台酒店展示冰箱，用于迪拜码头新酒店项目。含送货及安装。",
+                ko: "두바이 마리나 신규 호텔 프로젝트를 위한 상업용 에스프레소 머신 15대 + 호텔용 쇼케이스 냉장고 20대 긴급 조달. 배송 및 설치 포함."
             },
             construction: {
-                text: "مطلوب 500 لوح طاقة شمسية بقدرة 550 واط + 10 محولات (Inverters) صناعية لمشروع مبنى تجاري في الخليج التجاري بدبي.",
-                budget: 420000
+                budget: 420000,
+                ar: "مطلوب 500 لوح طاقة شمسية بقدرة 550 واط + 10 محولات (Inverters) صناعية لمشروع مبنى تجاري في الخليج التجاري بدبي.",
+                en: "Required: 500 solar panels (550W) + 10 industrial inverters for a commercial building project in Business Bay, Dubai.",
+                fr: "Requis : 500 panneaux solaires (550W) + 10 onduleurs industriels pour un bâtiment commercial à Business Bay, Dubaï.",
+                es: "Se requieren 500 paneles solares (550W) + 10 inversores industriales para proyecto comercial en Business Bay, Dubái.",
+                ru: "Требуется 500 солнечных панелей (550 Вт) + 10 промышленных инверторов для коммерческого здания в Business Bay, Дубай.",
+                zh: "需求：500块550W太阳能电池板 + 10台工业逆变器，用于迪拜商业湾商业建筑项目。",
+                ko: "두바이 비즈니스 베이 상업용 빌딩 프로젝트를 위한 550W 태양광 패널 500개 + 산업용 인버터 10개 조달."
             },
             medical: {
-                text: "مطلوب 4 أجهزة ليزر طبية معتمدة من هيئة الصحة بدبي (DHA) + 15 سرير فحص كهربائي لعيادة في جميرا.",
-                budget: 650000
+                budget: 650000,
+                ar: "مطلوب 4 أجهزة ليزر طبية معتمدة من هيئة الصحة بدبي (DHA) + 15 سرير فحص كهربائي لعيادة في جميرا.",
+                en: "Required: 4 DHA-certified medical laser devices + 15 electric examination beds for a clinic in Jumeirah, Dubai.",
+                fr: "Requis : 4 appareils laser médicaux certifiés DHA + 15 lits d'examen électriques pour une clinique à Jumeirah.",
+                es: "Se requieren 4 dispositivos láser médicos certificados por DHA + 15 camillas eléctricas para clínica en Jumeirah.",
+                ru: "Требуется 4 медицинских лазерных аппарата с сертификацией DHA + 15 электрических кушеток для клиники в Джумейре.",
+                zh: "需求：4台迪拜卫生局(DHA)认证医疗激光设备 + 15张电动检查床，用于朱美拉诊所。",
+                ko: "두바이 보건청(DHA) 인증 의료용 레이저 기기 4대 + 주메이라 클리닉용 전동 진료대 15대 조달."
             }
         };
 
+        // Multilingual Supplier & Free Zone Name Mapper (Translates SQLite DB Arabic entities into all 7 languages)
+        const entityTranslations = {
+            names: {
+                "شركة الخليج للتجهيزات الفندقية ذ.م.م": {
+                    ar: "شركة الخليج للتجهيزات الفندقية ذ.م.م",
+                    en: "Gulf Hospitality Equipment LLC",
+                    fr: "Équipements Hôteliers du Golfe SARL",
+                    es: "Equipos de Hostelería del Golfo LLC",
+                    ru: "Gulf Hospitality Equipment LLC (Дубай)",
+                    zh: "海湾酒店设备有限责任公司 (Gulf Hospitality LLC)",
+                    ko: "걸프 호스피탈리티 장비 유한회사 (Gulf Hospitality LLC)"
+                },
+                "الإمارات للمعدات التجارية والصناعية": {
+                    ar: "الإمارات للمعدات التجارية والصناعية",
+                    en: "Emirates Commercial & Industrial Supply",
+                    fr: "Fournitures Commerciales des Émirats",
+                    es: "Suministros Comerciales de los Emiratos",
+                    ru: "Emirates Commercial & Industrial Supply",
+                    zh: "阿联酋商业与工业设备供应公司",
+                    ko: "에미레이트 상업 및 산업 장비 공급"
+                },
+                "دبي لتقنيات الطاقة الشمسية والمقاولات": {
+                    ar: "دبي لتقنيات الطاقة الشمسية والمقاولات",
+                    en: "Dubai Solar Tech & Contracting LLC",
+                    fr: "Dubaï Technologies Solaires & Contrats",
+                    es: "Dubái Tecnología Solar y Contratación",
+                    ru: "Dubai Solar Tech & Contracting LLC",
+                    zh: "迪拜太阳能技术与工程承包公司",
+                    ko: "두바이 솔라 테크 및 건설 유한회사"
+                },
+                "النخبة للتوريدات الهندسية": {
+                    ar: "النخبة للتوريدات الهندسية",
+                    en: "Al Nukhba Engineering Supplies",
+                    fr: "Fournitures d'Ingénierie Al Nukhba",
+                    es: "Suministros de Ingeniería Al Nukhba",
+                    ru: "Инженерные поставки Al Nukhba",
+                    zh: "精英工程设备贸易公司 (Al Nukhba)",
+                    ko: "알 누크바 엔지니어링 서플라이"
+                },
+                "ميديكال كير للتجهيزات الطبية المتقدمة": {
+                    ar: "ميديكال كير للتجهيزات الطبية المتقدمة",
+                    en: "Medical Care Advanced Equipment LLC",
+                    fr: "Équipements Médicaux Avancés Medical Care",
+                    es: "Equipos Médicos Avanzados Medical Care",
+                    ru: "Medical Care Передовое Медоборудование",
+                    zh: "迪拜先进医疗设备公司 (Medical Care LLC)",
+                    ko: "메디컬 케어 첨단 의료장비 유한회사"
+                },
+                "دار الشفاء للتوريدات الصحية": {
+                    ar: "دار الشفاء للتوريدات الصحية",
+                    en: "Dar Al Shifa Healthcare Supplies",
+                    fr: "Fournitures de Santé Dar Al Shifa",
+                    es: "Suministros Médicos Dar Al Shifa",
+                    ru: "Медицинские поставки Dar Al Shifa",
+                    zh: "达尔希法医疗保健供应公司",
+                    ko: "다르 알 시파 헬스케어 서플라이"
+                }
+            },
+            zones: {
+                "المنطقة الحرة بجبل علي (JAFZA)": {
+                    ar: "المنطقة الحرة بجبل علي (JAFZA)", en: "Jebel Ali Free Zone (JAFZA)", fr: "Zone Franche de Jebel Ali (JAFZA)", es: "Zona Franca de Jebel Ali (JAFZA)", ru: "СЭЗ Джебель-Али (JAFZA)", zh: "杰贝阿里自由区 (JAFZA)", ko: "제벨 알리 자유무역지대 (JAFZA)"
+                },
+                "جبل علي (JAFZA)": {
+                    ar: "جبل علي (JAFZA)", en: "Jebel Ali (JAFZA)", fr: "Jebel Ali (JAFZA)", es: "Jebel Ali (JAFZA)", ru: "Джебель-Али (JAFZA)", zh: "杰贝阿里 (JAFZA)", ko: "제벨 알리 (JAFZA)"
+                },
+                "القوز الصناعية 3": {
+                    ar: "القوز الصناعية 3", en: "Al Quoz Industrial 3", fr: "Zone Industrielle d'Al Quoz 3", es: "Zona Industrial Al Quoz 3", ru: "Промзона Аль-Куоз 3", zh: "阿库兹工业区 3 (Al Quoz)", ko: "알 쿠오즈 산업단지 3"
+                },
+                "مدينة دبي الصناعية (DIC)": {
+                    ar: "مدينة دبي الصناعية (DIC)", en: "Dubai Industrial City (DIC)", fr: "Cité Industrielle de Dubaï (DIC)", es: "Ciudad Industrial de Dubái (DIC)", ru: "Промышленный город Дубая (DIC)", zh: "迪拜工业城 (DIC)", ko: "두바이 산업도시 (DIC)"
+                },
+                "راس الخور الصناعية": {
+                    ar: "راس الخور الصناعية", en: "Ras Al Khor Industrial", fr: "Zone Industrielle Ras Al Khor", es: "Zona Industrial Ras Al Khor", ru: "Промзона Рас-Аль-Хор", zh: "拉斯奥科尔工业区", ko: "라스 알 코르 산업단지"
+                },
+                "مدينة دبي الطبية (DHCC)": {
+                    ar: "مدينة دبي الطبية (DHCC)", en: "Dubai Healthcare City (DHCC)", fr: "Cité Médicale de Dubaï (DHCC)", es: "Ciudad Sanitaria de Dubái (DHCC)", ru: "Медицинский город Дубая (DHCC)", zh: "迪拜医疗城 (DHCC)", ko: "두바이 헬스케어 시티 (DHCC)"
+                },
+                "مجمع دبي للعلوم": {
+                    ar: "مجمع دبي للعلوم", en: "Dubai Science Park (DSP)", fr: "Parc Scientifique de Dubaï", es: "Parque Científico de Dubái", ru: "Научный парк Дубая (DSP)", zh: "迪拜科学园 (DSP)", ko: "두바이 사이언스 파크"
+                }
+            }
+        };
+
+        function localizeVendorName(rawName, idx = 0) {
+            if (!rawName) return "";
+            if (entityTranslations.names[rawName] && entityTranslations.names[rawName][currentUILang]) {
+                return entityTranslations.names[rawName][currentUILang];
+            }
+            for (const key in entityTranslations.names) {
+                if (rawName.includes(key) || entityTranslations.names[key].en === rawName) {
+                    return entityTranslations.names[key][currentUILang] || rawName;
+                }
+            }
+            if (currentUILang !== 'ar' && /[\u0600-\u06FF]/.test(rawName)) {
+                const fallbackNames = {
+                    en: idx === 0 ? "Gulf Certified Trading LLC (Dubai)" : "Emirates Commercial Supply LLC",
+                    fr: idx === 0 ? "Société Commerciale Certifiée du Golfe (Dubaï)" : "Fournitures Commerciales des Émirats",
+                    es: idx === 0 ? "Corporación Comercial del Golfo (Dubái)" : "Suministros Comerciales de los Emiratos",
+                    ru: idx === 0 ? "Gulf Certified Trading LLC (Дубай)" : "Emirates Commercial Supply LLC",
+                    zh: idx === 0 ? "海湾认证贸易有限责任公司 (迪拜)" : "阿联酋商业供应链有限公司",
+                    ko: idx === 0 ? "걸프 인증 트레이딩 유한회사 (두바이)" : "에미레이트 커머셜 서플라이"
+                };
+                return fallbackNames[currentUILang] || rawName;
+            }
+            return rawName;
+        }
+
+        function localizeZoneName(rawZone, idx = 0) {
+            if (!rawZone) return "";
+            if (entityTranslations.zones[rawZone] && entityTranslations.zones[rawZone][currentUILang]) {
+                return entityTranslations.zones[rawZone][currentUILang];
+            }
+            for (const key in entityTranslations.zones) {
+                if (rawZone.includes(key) || entityTranslations.zones[key].en === rawZone) {
+                    return entityTranslations.zones[key][currentUILang] || rawZone;
+                }
+            }
+            if (currentUILang !== 'ar' && /[\u0600-\u06FF]/.test(rawZone)) {
+                const fallbackZones = {
+                    en: idx === 0 ? "Jebel Ali Free Zone (JAFZA)" : "Al Quoz Industrial Zone, Dubai",
+                    fr: idx === 0 ? "Zone Franche de Jebel Ali (JAFZA)" : "Zone Industrielle d'Al Quoz, Dubaï",
+                    es: idx === 0 ? "Zona Franca de Jebel Ali (JAFZA)" : "Zona Industrial Al Quoz, Dubái",
+                    ru: idx === 0 ? "СЭЗ Джебель-Али (JAFZA)" : "Промзона Аль-Куоз, Дубай",
+                    zh: idx === 0 ? "杰贝阿里自由区 (JAFZA)" : "迪拜阿库兹工业区",
+                    ko: idx === 0 ? "제벨 알리 자유무역지대 (JAFZA)" : "두바이 알 쿠오즈 산업단지"
+                };
+                return fallbackZones[currentUILang] || rawZone;
+            }
+            return rawZone;
+        }
+
+        // 7-Language Dictionary for Full UI, Matrix & Official PO Modal Localization
+        const i18n = {
+            ar: {
+                dir: "rtl",
+                globalBadge: "بوابة دبي العالمية للتوريد الذكي (تدعم المستثمرين بـ 7 لغات)",
+                langLabel: "لغة الواجهة:",
+                subtitle: "نظام وكلاء ذكاء اصطناعي متكامل للمشتريات والتفاوض الصوتي والجمارك في دبي",
+                voiceOn: "الصوت الحي: مفعل", voiceOff: "الصوت الحي: مكتوم",
+                p1t: "01. فهم مشكلة حقيقية", p1d: "تحليل طلبات الشراء والمواصفات",
+                p2t: "02. التخطيط واتخاذ القرارات", p2d: "بناء استراتيجية البحث والتفاوض",
+                p3t: "03. استخدام الأدوات", p3d: "قاعدة بيانات SQLite والجمارك والصوت",
+                p4t: "04. تنفيذ المهام", p4d: "إتمام الصفقة وإصدار أمر الشراء (PO)",
+                rfqHeading: "إدخال طلب التوريد (RFQ)", micBtn: "إملاء صوتي",
+                sectorLabel: "اختر القطاع التجاري في دبي:",
+                optHotel: "قطاع الضيافة والفنادق (دبي مارينا)", optConst: "قطاع المقاولات والطاقة (الخليج التجاري)", optMed: "القطاع الطبي والعيادات (جميرا / DHCC)",
+                ocrLabel: "📄 أداة قراءة الفواتير وكراسات الشروط (Vision OCR):", ocrBtn: "تحليل الملف",
+                detailsLabel: "تفاصيل الطلب والمواصفات:", budgetLabel: "الميزانية المستهدفة (AED):",
+                priorityLabel: "أولوية القرار للوكيل:", optCost: "أقل سعر + خصم نقدي", optSpeed: "توصيل فوري (مستودعات دبي)",
+                callLangLabel: "📞 لغة التفاوض الصوتي مع الموردين في دبي:",
+                callAr: "🇦🇪 تفاوض بالعربية", callEn: "🇬🇧 Negotiate in EN",
+                callHint: "* يدعم الموردين المواطنين والعرب (بالعربية) والموردين الأجانب والدوليين (بالإنجليزية).",
+                startBtn: "⚡ تشغيل الوكيل والاتصال بقاعدة البيانات",
+                rerunBtn: "🔄 تشغيل دورة تفاوض جديدة",
+                toolsHeading: "حالة أدوات الوكيل (Active Agent Tools):",
+                toolOcr: "📄 محلل المستندات والمواصفات (Vision OCR)", toolDb: "🏢 قاعدة بيانات تجار دبي (SQLite DB)",
+                toolCustoms: "🛃 حاسبة جمارك دبي (HS Code API)", toolComm: "📞 تفاوض حي (WhatsApp & UAE SIP Voice)",
+                ready: "جاهز",
+                brainTitle: "🧠 عقل الوكيل: التخطيط واتخاذ القرارات", agentStatus: "متصل بالخادم...",
+                commsTitle: "💬 غرفة التفاوض الحي (WhatsApp & SIP Voice)", tdraBadge: "متوافق مع TDRA الإمارات",
+                noComms: "لا توجد محادثات نشطة حالياً",
+                matrixTitle: "مصفوفة العروض المستخرجة من قاعدة البيانات (SQLite)",
+                thVendor: "المورد في دبي", thHs: "الرمز الجمركي", thInit: "السعر الأولي", thNeg: "بعد التفاوض", thVat: "شامل الضريبة (5%)", thDeliv: "التوريد", thDec: "القرار",
+                tableEmpty: "اضغط على \"تشغيل الوكيل\" للبدء...",
+                poBtn: "📄 عرض واعتماد أمر الشراء النهائي (Official PO)",
+                curr: "درهم", hrs: "ساعة",
+                statusWin: "معتمد للتنفيذ", statusBackup: "احتياطي",
+                savingsFmt: (s) => `تم توفير ${s} درهم + 6 أيام عمل!`,
+                recFmt: (v, z, d, h) => `✅ <strong>توصية الوكيل النهائية:</strong> التعاقد مع <strong>${v} (${z})</strong> بخصم ${d}% وتسليم خلال ${h} ساعة.`,
+                poSwitchLbl: "🌐 لغة فاتورة وأمر الشراء للمورد (PO Language):",
+                poModalTitle: "أمر شراء رسمي | OFFICIAL PURCHASE ORDER",
+                poModalSub: "صادر آلياً وموثق عبر منصة مُورّد (Mowarrid Autonomous Agent)",
+                poDate: "التاريخ: 21 أكتوبر 2026",
+                poVendorLbl: "المورد الفائز (Vendor):",
+                poLicensePrefix: "رقم الرخصة التجارية: ",
+                poCustomsLbl: "تفاصيل التخليص والتوصيل:",
+                poCustomsStatus: "حالة الجمارك: معفى (توريد محلي موثق - دبي)",
+                poDeliveryPrefix: "التسليم المجدول خلال: ",
+                poItemsLbl: "بيان المطلوبات المعتمدة:",
+                poTotalLbl: "إجمالي المبلغ النهائي شامل ضريبة القيمة المضافة (5% VAT):",
+                poPrintBtn: "🖨️ طباعة / حفظ PDF",
+                poCloseBtn: "إغلاق"
+            },
+            en: {
+                dir: "ltr",
+                globalBadge: "Dubai Global Smart Procurement Gateway (Supporting Investors in 7 Languages)",
+                langLabel: "UI Language:",
+                subtitle: "Autonomous AI Agent System for Procurement, Voice Negotiation & Dubai Customs",
+                voiceOn: "Live Voice: ON", voiceOff: "Live Voice: MUTED",
+                p1t: "01. Problem Understanding", p1d: "Analyzing RFQ & Technical Specs",
+                p2t: "02. Autonomous Planning", p2d: "Sourcing & Negotiation Strategy",
+                p3t: "03. Tool Execution", p3d: "SQLite DB, Customs API & SIP Voice",
+                p4t: "04. Task Completion", p4d: "Deal Closing & Official PO Issuance",
+                rfqHeading: "Submit Request for Quotation (RFQ)", micBtn: "Voice Input",
+                sectorLabel: "Select Business Sector in Dubai:",
+                optHotel: "Hospitality & Hotels (Dubai Marina)", optConst: "Construction & Energy (Business Bay)", optMed: "Medical & Clinics (Jumeirah / DHCC)",
+                ocrLabel: "📄 Invoice & RFP Vision Analyzer (Vision OCR):", ocrBtn: "Analyze File",
+                detailsLabel: "Order Specifications & Requirements:", budgetLabel: "Target Budget (AED):",
+                priorityLabel: "Agent Decision Priority:", optCost: "Lowest Price + Cash Discount", optSpeed: "Immediate Delivery (Dubai Stock)",
+                callLangLabel: "📞 Live Voice Negotiation Language with Dubai Suppliers:",
+                callAr: "🇦🇪 Arabic Negotiation", callEn: "🇬🇧 Negotiate in EN",
+                callHint: "* Supports UAE/Arab suppliers (in Arabic) & international suppliers in Dubai (in English).",
+                startBtn: "⚡ Launch Autonomous Agent & Connect DB",
+                rerunBtn: "🔄 Run New Negotiation Cycle",
+                toolsHeading: "Active Agent Tools Status:",
+                toolOcr: "📄 Document & Spec Analyzer (Vision OCR)", toolDb: "🏢 Dubai Merchants Directory (SQLite DB)",
+                toolCustoms: "🛃 Dubai Customs Calculator (HS Code API)", toolComm: "📞 Live Negotiation (WhatsApp & UAE SIP)",
+                ready: "Ready",
+                brainTitle: "🧠 Agent Brain: Planning & Decision Making", agentStatus: "Server Connected...",
+                commsTitle: "💬 Live Negotiation Room (WhatsApp & SIP Voice)", tdraBadge: "UAE TDRA Compliant",
+                noComms: "No active negotiations at the moment",
+                matrixTitle: "Supplier Offers Matrix (Extracted from SQLite DB)",
+                thVendor: "Dubai Supplier", thHs: "HS Code", thInit: "Initial Quote", thNeg: "Negotiated", thVat: "Incl. 5% VAT", thDeliv: "Delivery", thDec: "Decision",
+                tableEmpty: "Click \"Launch Autonomous Agent\" to start...",
+                poBtn: "📄 View & Approve Official Purchase Order (PO)",
+                curr: "AED", hrs: "hrs",
+                statusWin: "Approved Winner", statusBackup: "Backup",
+                savingsFmt: (s) => `Saved ${s} AED + 6 Working Days!`,
+                recFmt: (v, z, d, h) => `✅ <strong>Final Agent Recommendation:</strong> Award contract to <strong>${v} (${z})</strong> with ${d}% discount & ${h}h delivery.`,
+                poSwitchLbl: "🌐 Official Purchase Order Language:",
+                poModalTitle: "OFFICIAL PURCHASE ORDER | أمر شراء رسمي",
+                poModalSub: "Automatically Generated & Verified by Mowarrid Autonomous Agent - Dubai",
+                poDate: "Date: 21 Oct 2026",
+                poVendorLbl: "Approved Vendor (Supplier):",
+                poLicensePrefix: "DED / FreeZone License No: ",
+                poCustomsLbl: "Customs & Delivery Clearance:",
+                poCustomsStatus: "Customs Status: Exempt (Verified Dubai Local / Free Zone Supply)",
+                poDeliveryPrefix: "Scheduled Delivery: Within ",
+                poItemsLbl: "Approved Procurement Specifications:",
+                poTotalLbl: "Final Total Amount Including 5% UAE VAT:",
+                poPrintBtn: "🖨️ Print / Save PDF",
+                poCloseBtn: "Close"
+            },
+            fr: {
+                dir: "ltr",
+                globalBadge: "Portail Mondial d'Approvisionnement Intelligent de Dubaï (7 Langues)",
+                langLabel: "Langue:",
+                subtitle: "Système d'Agents IA Autonomes pour les Achats, la Négociation Vocale et les Douanes à Dubaï",
+                voiceOn: "Voix Live: ACTIVÉE", voiceOff: "Voix Live: MUET",
+                p1t: "01. Compréhension du Besoin", p1d: "Analyse des appels d'offres (RFQ)",
+                p2t: "02. Planification Autonome", p2d: "Stratégie de recherche et négociation",
+                p3t: "03. Utilisation d'Outils", p3d: "Base SQLite, Douanes & Voix SIP",
+                p4t: "04. Exécution Finale", p4d: "Conclusion et émission du Bon (PO)",
+                rfqHeading: "Saisir la Demande d'Achat (RFQ)", micBtn: "Dictée Vocale",
+                sectorLabel: "Secteur d'activité à Dubaï :",
+                optHotel: "Hôtellerie & Tourisme (Dubai Marina)", optConst: "Construction & Énergie (Business Bay)", optMed: "Médical & Cliniques (Jumeirah / DHCC)",
+                ocrLabel: "📄 Analyseur de Factures & Cahiers des Charges (OCR) :", ocrBtn: "Analyser",
+                detailsLabel: "Détails et Spécifications de la Commande :", budgetLabel: "Budget Cible (AED) :",
+                priorityLabel: "Priorité de l'Agent :", optCost: "Prix Minimum + Remise Cash", optSpeed: "Livraison Immédiate (Stock Dubaï)",
+                callLangLabel: "📞 Langue d'Appel Vocal avec les Fournisseurs :",
+                callAr: "🇦🇪 Négocier en Arabe", callEn: "🇬🇧 Négocier en Anglais",
+                callHint: "* Permet de négocier en arabe ou en anglais avec les fournisseurs de Dubaï.",
+                startBtn: "⚡ Lancer l'Agent Autonome & Connecter BD",
+                rerunBtn: "🔄 Lancer un Nouveau Cycle de Négociation",
+                toolsHeading: "État des Outils de l'Agent :",
+                toolOcr: "📄 Analyseur de Documents (Vision OCR)", toolDb: "🏢 Annuaire des Marchands de Dubaï (SQLite)",
+                toolCustoms: "🛃 Calculateur Douanes Dubaï (HS Code)", toolComm: "📞 Négociation Live (WhatsApp & SIP)",
+                ready: "Prêt",
+                brainTitle: "🧠 Cerveau de l'Agent : Planification & Décisions", agentStatus: "Connecté au serveur...",
+                commsTitle: "💬 Salle de Négociation (WhatsApp & Voix SIP)", tdraBadge: "Conforme TDRA Émirats",
+                noComms: "Aucune négociation active pour le moment",
+                matrixTitle: "Matrice des Offres Fournisseurs (SQLite DB)",
+                thVendor: "Fournisseur Dubaï", thHs: "Code HS", thInit: "Prix Initial", thNeg: "Après Négo", thVat: "TTC (5% TVA)", thDeliv: "Livraison", thDec: "Décision",
+                tableEmpty: "Cliquez sur \"Lancer l'Agent\" pour démarrer...",
+                poBtn: "📄 Voir et Approuver le Bon de Commande (Official PO)",
+                curr: "AED", hrs: "h",
+                statusWin: "Fournisseur Retenu", statusBackup: "Réserve",
+                savingsFmt: (s) => `Économie de ${s} AED + 6 Jours Ouvrables !`,
+                recFmt: (v, z, d, h) => `✅ <strong>Recommandation Finale :</strong> Attribuer le contrat à <strong>${v} (${z})</strong> avec -${d}% de remise et livraison en ${h}h.`,
+                poSwitchLbl: "🌐 Langue du Bon de Commande (PO) :",
+                poModalTitle: "BON DE COMMANDE OFFICIEL | OFFICIAL PO",
+                poModalSub: "Généré et certifié automatiquement par l'Agent Autonome Mowarrid - Dubaï",
+                poDate: "Date : 21 Oct 2026",
+                poVendorLbl: "Fournisseur Approuvé (Vendor) :",
+                poLicensePrefix: "N° de Licence Commerciale : ",
+                poCustomsLbl: "Dédouanement & Livraison :",
+                poCustomsStatus: "Statut Douanier : Exonéré (Approvisionnement Zone Franche / Dubaï)",
+                poDeliveryPrefix: "Livraison Prévue : Sous ",
+                poItemsLbl: "Description des Articles Approuvés :",
+                poTotalLbl: "Montant Total Final TTC (TVA 5% EAU incluse) :",
+                poPrintBtn: "🖨️ Imprimer / Enregistrer PDF",
+                poCloseBtn: "Fermer"
+            },
+            es: {
+                dir: "ltr",
+                globalBadge: "Portal Global de Compras Inteligentes de Dubái (Soporte en 7 Idiomas)",
+                langLabel: "Idioma:",
+                subtitle: "Sistema de Agentes IA Autónomos para Compras, Negociación por Voz y Aduanas en Dubái",
+                voiceOn: "Voz en Vivo: ON", voiceOff: "Voz en Vivo: MUDO",
+                p1t: "01. Comprensión del Problema", p1d: "Análisis de solicitudes y especificaciones",
+                p2t: "02. Planificación Autónoma", p2d: "Estrategia de búsqueda y negociación",
+                p3t: "03. Uso de Herramientas", p3d: "Base SQLite, Aduanas y Voz SIP",
+                p4t: "04. Ejecución de Tareas", p4d: "Cierre de trato y Orden de Compra (PO)",
+                rfqHeading: "Solicitud de Cotización (RFQ)", micBtn: "Dictado por Voz",
+                sectorLabel: "Seleccione el Sector Comercial en Dubái:",
+                optHotel: "Hostelería y Hoteles (Dubai Marina)", optConst: "Construcción y Energía (Business Bay)", optMed: "Sector Médico y Clínicas (Jumeirah)",
+                ocrLabel: "📄 Lector de Facturas y Pliegos (Vision OCR):", ocrBtn: "Analizar",
+                detailsLabel: "Detalles y Especificaciones del Pedido:", budgetLabel: "Presupuesto Objetivo (AED):",
+                priorityLabel: "Prioridad del Agente:", optCost: "Menor Precio + Descuento Cash", optSpeed: "Entrega Inmediata (Almacén Dubái)",
+                callLangLabel: "📞 Idioma de Llamada de Negociación:",
+                callAr: "🇦🇪 Negociar en Árabe", callEn: "🇬🇧 Negociar en Inglés",
+                callHint: "* Soporta proveedores locales (en árabe) e internacionales en Dubái (en inglés).",
+                startBtn: "⚡ Ejecutar Agente Autónomo y Conectar BD",
+                rerunBtn: "🔄 Ejecutar Nuevo Ciclo de Negociación",
+                toolsHeading: "Estado de Herramientas del Agente:",
+                toolOcr: "📄 Analizador de Documentos (Vision OCR)", toolDb: "🏢 Directorio Comercial de Dubái (SQLite)",
+                toolCustoms: "🛃 Calculadora de Aduanas Dubái (HS Code)", toolComm: "📞 Negociación en Vivo (WhatsApp y SIP)",
+                ready: "Listo",
+                brainTitle: "🧠 Cerebro del Agente: Planificación y Decisiones", agentStatus: "Conectado al servidor...",
+                commsTitle: "💬 Sala de Negociación (WhatsApp y Voz SIP)", tdraBadge: "Compatible con TDRA EAU",
+                noComms: "No hay conversaciones activas actualmente",
+                matrixTitle: "Matriz de Ofertas de Base de Datos (SQLite)",
+                thVendor: "Proveedor Dubái", thHs: "Código HS", thInit: "Precio Inicial", thNeg: "Negociado", thVat: "Con IVA (5%)", thDeliv: "Entrega", thDec: "Decisión",
+                tableEmpty: "Haga clic en \"Ejecutar Agente\" para comenzar...",
+                poBtn: "📄 Ver y Aprobar Orden de Compra Oficial (PO)",
+                curr: "AED", hrs: "h",
+                statusWin: "Adjudicado", statusBackup: "Reserva",
+                savingsFmt: (s) => `¡Ahorro de ${s} AED + 6 Días Laborables!`,
+                recFmt: (v, z, d, h) => `✅ <strong>Recomendación Final:</strong> Adjudicar contrato a <strong>${v} (${z})</strong> con ${d}% de descuento y entrega en ${h}h.`,
+                poSwitchLbl: "🌐 Idioma de la Orden de Compra (PO):",
+                poModalTitle: "ORDEN DE COMPRA OFICIAL | OFFICIAL PO",
+                poModalSub: "Emitida y verificada automáticamente por Mowarrid Autonomous Agent - Dubái",
+                poDate: "Fecha: 21 Oct 2026",
+                poVendorLbl: "Proveedor Adjudicado (Vendor):",
+                poLicensePrefix: "N° de Licencia Comercial: ",
+                poCustomsLbl: "Detalles de Aduana y Entrega:",
+                poCustomsStatus: "Estado Aduanero: Exento (Suministro Verificado en Dubái / Zona Franca)",
+                poDeliveryPrefix: "Entrega Programada: En ",
+                poItemsLbl: "Descripción de Suministros Aprobados:",
+                poTotalLbl: "Importe Total Final Incluyendo 5% IVA (EAU):",
+                poPrintBtn: "🖨️ Imprimir / Guardar PDF",
+                poCloseBtn: "Cerrar"
+            },
+            ru: {
+                dir: "ltr",
+                globalBadge: "Глобальный портал умных закупок Дубая (Поддержка 7 языков)",
+                langLabel: "Язык интерфейса:",
+                subtitle: "Автономная ИИ-система для закупок, голосовых переговоров и таможни в Дубае",
+                voiceOn: "Живой голос: ВКЛ", voiceOff: "Живой голос: ВЫКЛ",
+                p1t: "01. Понимание задачи", p1d: "Анализ заявок (RFQ) и спецификаций",
+                p2t: "02. Планирование и решения", p2d: "Стратегия поиска и торгов",
+                p3t: "03. Использование инструментов", p3d: "База SQLite, таможня и SIP-голос",
+                p4t: "04. Выполнение задач", p4d: "Закрытие сделки и выпуск заказа (PO)",
+                rfqHeading: "Ввод заявки на закупку (RFQ)", micBtn: "Голосовой ввод",
+                sectorLabel: "Выберите бизнес-сектор в Дубае:",
+                optHotel: "Гостиничный бизнес и отели (Dubai Marina)", optConst: "Строительство и энергетика (Business Bay)", optMed: "Медицина и клиники (Jumeirah / DHCC)",
+                ocrLabel: "📄 Анализ счетов и спецификаций (Vision OCR):", ocrBtn: "Анализ файла",
+                detailsLabel: "Детали заказа и характеристики:", budgetLabel: "Целевой бюджет (AED):",
+                priorityLabel: "Приоритет агента:", optCost: "Минимальная цена + скидка", optSpeed: "Срочная доставка (склад в Дубае)",
+                callLangLabel: "📞 Язык голосовых переговоров с поставщиками:",
+                callAr: "🇦🇪 На арабском", callEn: "🇬🇧 На английском (EN)",
+                callHint: "* Поддержка местных поставщиков (арабский) и международных компаний в Дубае (английский).",
+                startBtn: "⚡ Запустить ИИ-агента и подключить БД",
+                rerunBtn: "🔄 Запустить новый цикл переговоров",
+                toolsHeading: "Статус инструментов агента:",
+                toolOcr: "📄 Анализатор документов (Vision OCR)", toolDb: "🏢 База поставщиков Дубая (SQLite DB)",
+                toolCustoms: "🛃 Таможенный калькулятор Дубая (HS Code)", toolComm: "📞 Живые переговоры (WhatsApp и SIP)",
+                ready: "Готово",
+                brainTitle: "🧠 Мозг агента: Планирование и решения", agentStatus: "Подключено к серверу...",
+                commsTitle: "💬 Комната переговоров (WhatsApp и SIP)", tdraBadge: "Соответствует TDRA ОАЭ",
+                noComms: "Нет активных переговоров",
+                matrixTitle: "Матрица предложений из базы данных (SQLite)",
+                thVendor: "Поставщик в Дубае", thHs: "HS Код", thInit: "Нач. цена", thNeg: "После торгов", thVat: "С НДС (5%)", thDeliv: "Срок", thDec: "Решение",
+                tableEmpty: "Нажмите «Запустить ИИ-агента» для старта...",
+                poBtn: "📄 Открыть и утвердить официальный заказ (Official PO)",
+                curr: "AED", hrs: "ч.",
+                statusWin: "Утвержден", statusBackup: "Резерв",
+                savingsFmt: (s) => `Экономия ${s} AED + 6 рабочих дней!`,
+                recFmt: (v, z, d, h) => `✅ <strong>Рекомендация ИИ-агента:</strong> Заключить контракт с <strong>${v} (${z})</strong> со скидкой ${d}% и доставкой за ${h} ч.`,
+                poSwitchLbl: "🌐 Язык официального заказа (PO):",
+                poModalTitle: "ОФИЦИАЛЬНЫЙ ЗАКАЗ НА ЗАКУПКУ | OFFICIAL PO",
+                poModalSub: "Автоматически сформировано и заверено платформой Mowarrid AI - Дубай",
+                poDate: "Дата: 21 окт. 2026 г.",
+                poVendorLbl: "Утвержденный поставщик (Vendor):",
+                poLicensePrefix: "Торговая лицензия №: ",
+                poCustomsLbl: "Таможня и условия доставки:",
+                poCustomsStatus: "Таможенный статус: Освобождено от пошлин (СЭЗ / Локальная поставка в Дубае)",
+                poDeliveryPrefix: "Плановая доставка: в течение ",
+                poItemsLbl: "Утвержденная спецификация заказа:",
+                poTotalLbl: "Итоговая сумма заказа (включая 5% НДС ОАЭ):",
+                poPrintBtn: "🖨️ Печать / Сохранить PDF",
+                poCloseBtn: "Закрыть"
+            },
+            zh: {
+                dir: "ltr",
+                globalBadge: "迪拜全球智能采购门户（支持7种语言服务全球投资者）",
+                langLabel: "界面语言:",
+                subtitle: "迪拜全自主人工智能采购、实时语音谈判与海关清关系统",
+                voiceOn: "实时语音: 开启", voiceOff: "实时语音: 静音",
+                p1t: "01. 理解真实需求", p1d: "解析采购订单与技术规格",
+                p2t: "02. 自主规划与决策", p2d: "构建寻源与议价策略",
+                p3t: "03. 调用专业工具", p3d: "SQLite数据库、迪拜海关与SIP语音",
+                p4t: "04. 自动化任务执行", p4d: "达成交易并签发正式采购单 (PO)",
+                rfqHeading: "输入采购询价单 (RFQ)", micBtn: "语音输入",
+                sectorLabel: "选择迪拜商业领域：",
+                optHotel: "酒店与餐饮业 (迪拜码头 Dubai Marina)", optConst: "建筑与新能源 (商业湾 Business Bay)", optMed: "医疗与诊所 (朱美拉 / DHCC)",
+                ocrLabel: "📄 发票与标书视觉解析工具 (Vision OCR)：", ocrBtn: "解析文件",
+                detailsLabel: "订单详情与规格要求：", budgetLabel: "目标预算 (AED)：",
+                priorityLabel: "代理决策优先级：", optCost: "最低价格 + 现金折扣", optSpeed: "极速交付 (迪拜本地现货)",
+                callLangLabel: "📞 与迪拜供应商的语音谈判语言：",
+                callAr: "🇦🇪 阿拉伯语谈判", callEn: "🇬🇧 英语谈判 (EN)",
+                callHint: "* 支持阿联酋本地阿拉伯语供应商及迪拜国际英语供应商。",
+                startBtn: "⚡ 启动自主代理并连接数据库",
+                rerunBtn: "🔄 启动新一轮智能谈判",
+                toolsHeading: "代理工具状态 (Active Agent Tools)：",
+                toolOcr: "📄 文档与规格视觉分析 (Vision OCR)", toolDb: "🏢 迪拜商户数据库 (SQLite DB)",
+                toolCustoms: "🛃 迪拜海关编码计算器 (HS Code API)", toolComm: "📞 实时语音谈判 (WhatsApp & UAE SIP)",
+                ready: "就绪",
+                brainTitle: "🧠 代理大脑：自主规划与决策日志", agentStatus: "已连接服务器...",
+                commsTitle: "💬 实时谈判室 (WhatsApp & SIP 语音)", tdraBadge: "符合阿联酋 TDRA 规范",
+                noComms: "当前暂无活跃通话",
+                matrixTitle: "从数据库提取的供应商报价矩阵 (SQLite)",
+                thVendor: "迪拜供应商", thHs: "海关编码", thInit: "初始报价", thNeg: "谈判后价格", thVat: "含5%增值税", thDeliv: "交付时间", thDec: "决策",
+                tableEmpty: "点击“启动自主代理”开始运行...",
+                poBtn: "📄 查看并批准正式采购订单 (Official PO)",
+                curr: "AED", hrs: "小时",
+                statusWin: "中标批准", statusBackup: "备选方案",
+                savingsFmt: (s) => `已节省 ${s} 迪拉姆 (AED) + 缩短 6 个工作日！`,
+                recFmt: (v, z, d, h) => `✅ <strong>代理最终建议：</strong> 授予合同给 <strong>${v} (${z})</strong>，享受 ${d}% 折扣，${h}小时内极速交付。`,
+                poSwitchLbl: "🌐 正式采购订单 (PO) 语言切换：",
+                poModalTitle: "正式采购订单 | OFFICIAL PURCHASE ORDER",
+                poModalSub: "由 Mowarrid AI 迪拜自主采购代理自动生成并认证",
+                poDate: "日期：2026年10月21日",
+                poVendorLbl: "中标供应商 (Approved Vendor)：",
+                poLicensePrefix: "迪拜营业执照编号：",
+                poCustomsLbl: "海关清关与交付详情：",
+                poCustomsStatus: "海关状态：免税（迪拜自由区/本地认证供应）",
+                poDeliveryPrefix: "预计交付时间：",
+                poItemsLbl: "核准采购物资明细：",
+                poTotalLbl: "包含 5% 阿联酋增值税 (VAT) 的最终总金额：",
+                poPrintBtn: "🖨️ 打印 / 保存为 PDF",
+                poCloseBtn: "关闭"
+            },
+            ko: {
+                dir: "ltr",
+                globalBadge: "두바이 글로벌 스마트 조달 게이트웨이 (7개 국어 투자자 지원)",
+                langLabel: "언어 선택:",
+                subtitle: "두바이 조달, 실시간 음성 협상 및 통관을 위한 자율형 AI 에이전트 시스템",
+                voiceOn: "실시간 음성: 켜짐", voiceOff: "실시간 음성: 음소거",
+                p1t: "01. 실제 문제 이해", p1d: "구매 요청서(RFQ) 및 사양 분석",
+                p2t: "02. 자율 계획 및 의사결정", p2d: "소싱 및 가격 협상 전략 수립",
+                p3t: "03. 전문 도구 활용", p3d: "SQLite DB, 세관 API 및 SIP 음성",
+                p4t: "04. 작업 실행 완료", p4d: "거래 체결 및 공식 구매주문서(PO) 발행",
+                rfqHeading: "구매 견적 요청서(RFQ) 입력", micBtn: "음성 입력",
+                sectorLabel: "두바이 비즈니스 섹터 선택:",
+                optHotel: "호텔 및 호스피탈리티 (두바이 마리나)", optConst: "건설 및 에너지 (비즈니스 베이)", optMed: "의료 및 클리닉 (주메이라 / DHCC)",
+                ocrLabel: "📄 청구서 및 입찰 문서 비전 분석기 (Vision OCR):", ocrBtn: "파일 분석",
+                detailsLabel: "주문 세부사항 및 사양:", budgetLabel: "목표 예산 (AED):",
+                priorityLabel: "에이전트 결정 우선순위:", optCost: "최저가 + 현금 할인", optSpeed: "즉시 배송 (두바이 현지 재고)",
+                callLangLabel: "📞 두바이 공급업체와의 음성 협상 언어:",
+                callAr: "🇦🇪 아랍어 협상", callEn: "🇬🇧 영어 협상 (EN)",
+                callHint: "* UAE 현지 공급업체(아랍어) 및 두바이 내 글로벌 공급업체(영어) 모두 지원.",
+                startBtn: "⚡ 자율 에이전트 실행 및 DB 연결",
+                rerunBtn: "🔄 새로운 협상 사이클 실행",
+                toolsHeading: "에이전트 도구 상태 (Active Agent Tools):",
+                toolOcr: "📄 문서 및 사양 분석기 (Vision OCR)", toolDb: "🏢 두바이 상인 데이터베이스 (SQLite DB)",
+                toolCustoms: "🛃 두바이 세관 계산기 (HS Code API)", toolComm: "📞 실시간 협상 (WhatsApp & UAE SIP)",
+                ready: "준비됨",
+                brainTitle: "🧠 에이전트 브레인: 계획 및 의사결정", agentStatus: "서버 연결됨...",
+                commsTitle: "💬 실시간 협상실 (WhatsApp & SIP 음성)", tdraBadge: "UAE TDRA 규정 준수",
+                noComms: "현재 진행 중인 대화가 없습니다",
+                matrixTitle: "데이터베이스에서 추출된 견적 매트릭스 (SQLite)",
+                thVendor: "두바이 공급업체", thHs: "HS 코드", thInit: "초기 견적", thNeg: "협상 후 가격", thVat: "부가세(5%) 포함", thDeliv: "배송 시간", thDec: "결정",
+                tableEmpty: "시작하려면 '자율 에이전트 실행'을 클릭하세요...",
+                poBtn: "📄 공식 구매주문서(Official PO) 보기 및 승인",
+                curr: "AED", hrs: "시간",
+                statusWin: "최종 승인됨", statusBackup: "예비 업체",
+                savingsFmt: (s) => `${s} AED 절감 + 영업일 6일 단축!`,
+                recFmt: (v, z, d, h) => `✅ <strong>에이전트 최종 추천:</strong> <strong>${v} (${z})</strong>와 계약 체결 (${d}% 할인, ${h}시간 내 배송).`,
+                poSwitchLbl: "🌐 공식 구매주문서(PO) 언어 선택:",
+                poModalTitle: "공식 구매 주문서 | OFFICIAL PURCHASE ORDER",
+                poModalSub: "Mowarrid 자율형 AI 에이전트에 의해 자동 생성 및 검증됨 - 두바이",
+                poDate: "발행일: 2026년 10월 21일",
+                poVendorLbl: "승인된 공급업체 (Vendor):",
+                poLicensePrefix: "무역 라이선스 번호: ",
+                poCustomsLbl: "통관 및 배송 세부정보:",
+                poCustomsStatus: "세관 상태: 면세 (두바이 자유무역지대 / 현지 검증 공급)",
+                poDeliveryPrefix: "예정된 배송 시간: ",
+                poItemsLbl: "승인된 조달 품목 명세:",
+                poTotalLbl: "부가가치세(5% VAT) 포함 최종 합계 금액:",
+                poPrintBtn: "🖨️ 인쇄 / PDF 저장",
+                poCloseBtn: "닫기"
+            }
+        };
+
+        function switchUILanguage(lang) {
+            currentUILang = lang;
+            const t = i18n[lang];
+            document.documentElement.lang = lang;
+            document.documentElement.dir = t.dir;
+
+            // Update table & PO modal alignment based on direction
+            const table = document.getElementById('mainResultsTable');
+            table.className = t.dir === 'rtl' ? 'w-full text-right text-xs border-collapse' : 'w-full text-left text-xs border-collapse';
+            document.getElementById('poModalCard').dir = t.dir;
+
+            // Highlight active language button in Top Bar
+            document.querySelectorAll('#langSelectorBar button').forEach(btn => {
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('lang-btn-active');
+                } else {
+                    btn.classList.remove('lang-btn-active');
+                }
+            });
+
+            // Highlight active language button inside PO Modal
+            document.querySelectorAll('#poLangSelectorBar button').forEach(btn => {
+                if (btn.getAttribute('data-polang') === lang) {
+                    btn.classList.add('po-lang-active');
+                } else {
+                    btn.classList.remove('po-lang-active');
+                }
+            });
+
+            // Apply translations to all UI elements
+            document.getElementById('ui-global-badge').innerText = t.globalBadge;
+            document.getElementById('ui-lang-label').innerText = t.langLabel;
+            document.getElementById('ui-subtitle').innerText = t.subtitle;
+            document.getElementById('voiceStatusText').innerText = voiceEnabled ? t.voiceOn : t.voiceOff;
+
+            document.getElementById('ui-p1-title').innerText = t.p1t; document.getElementById('ui-p1-desc').innerText = t.p1d;
+            document.getElementById('ui-p2-title').innerText = t.p2t; document.getElementById('ui-p2-desc').innerText = t.p2d;
+            document.getElementById('ui-p3-title').innerText = t.p3t; document.getElementById('ui-p3-desc').innerText = t.p3d;
+            document.getElementById('ui-p4-title').innerText = t.p4t; document.getElementById('ui-p4-desc').innerText = t.p4d;
+
+            document.getElementById('ui-rfq-heading').innerText = t.rfqHeading;
+            document.getElementById('ui-mic-btn').innerText = t.micBtn;
+            document.getElementById('ui-sector-label').innerText = t.sectorLabel;
+            document.getElementById('opt-hotel').innerText = t.optHotel;
+            document.getElementById('opt-construction').innerText = t.optConst;
+            document.getElementById('opt-medical').innerText = t.optMed;
+
+            document.getElementById('ui-ocr-label').innerText = t.ocrLabel;
+            document.getElementById('ui-ocr-btn').innerText = t.ocrBtn;
+            document.getElementById('ui-details-label').innerText = t.detailsLabel;
+            document.getElementById('ui-budget-label').innerText = t.budgetLabel;
+            document.getElementById('ui-priority-label').innerText = t.priorityLabel;
+            document.getElementById('opt-cost').innerText = t.optCost;
+            document.getElementById('opt-speed').innerText = t.optSpeed;
+
+            document.getElementById('ui-call-lang-label').innerText = t.callLangLabel;
+            document.getElementById('ui-call-ar').innerText = t.callAr;
+            document.getElementById('ui-call-en').innerText = t.callEn;
+            document.getElementById('ui-call-hint').innerText = t.callHint;
+
+            const startBtnEl = document.getElementById('startBtn');
+            if (!startBtnEl.disabled) {
+                startBtnEl.innerHTML = `<span id="ui-start-btn">${lastAgentData ? t.rerunBtn : t.startBtn}</span>`;
+            }
+
+            document.getElementById('ui-tools-heading').innerText = t.toolsHeading;
+            document.getElementById('ui-tool-ocr-name').innerText = t.toolOcr;
+            document.getElementById('ui-tool-db-name').innerText = t.toolDb;
+            document.getElementById('ui-tool-customs-name').innerText = t.toolCustoms;
+            document.getElementById('ui-tool-comm-name').innerText = t.toolComm;
+
+            document.querySelectorAll('.status-badge').forEach(b => {
+                if (b.classList.contains('text-gray-500')) b.innerText = t.ready;
+            });
+
+            document.getElementById('ui-brain-title').innerText = t.brainTitle;
+            document.getElementById('agentStatus').innerText = t.agentStatus;
+            document.getElementById('ui-comms-title').innerText = t.commsTitle;
+            document.getElementById('ui-tdra-badge').innerText = t.tdraBadge;
+            const noCommsEl = document.getElementById('ui-no-comms');
+            if (noCommsEl) noCommsEl.innerText = t.noComms;
+
+            document.getElementById('ui-matrix-title').innerText = t.matrixTitle;
+            document.getElementById('th-vendor').innerText = t.thVendor;
+            document.getElementById('th-hs').innerText = t.thHs;
+            document.getElementById('th-init').innerText = t.thInit;
+            document.getElementById('th-neg').innerText = t.thNeg;
+            document.getElementById('th-vat').innerText = t.thVat;
+            document.getElementById('th-deliv').innerText = t.thDeliv;
+            document.getElementById('th-dec').innerText = t.thDec;
+
+            const emptyRow = document.getElementById('ui-table-empty');
+            if (emptyRow) emptyRow.innerText = t.tableEmpty;
+            document.getElementById('ui-po-btn').innerText = t.poBtn;
+
+            // Translate Official PO Modal Static Labels
+            document.getElementById('ui-po-lang-switch-lbl').innerText = t.poSwitchLbl;
+            document.getElementById('ui-po-modal-title').innerText = t.poModalTitle;
+            document.getElementById('ui-po-modal-sub').innerText = t.poModalSub;
+            document.getElementById('ui-po-date').innerText = t.poDate;
+            document.getElementById('ui-po-vendor-lbl').innerText = t.poVendorLbl;
+            document.getElementById('ui-po-customs-lbl').innerText = t.poCustomsLbl;
+            document.getElementById('ui-po-customs-status').innerText = t.poCustomsStatus;
+            document.getElementById('ui-po-items-lbl').innerText = t.poItemsLbl;
+            document.getElementById('ui-po-total-lbl').innerText = t.poTotalLbl;
+            document.getElementById('ui-po-print').innerText = t.poPrintBtn;
+            document.getElementById('ui-po-close').innerText = t.poCloseBtn;
+
+            // Automatically switch default negotiation language to English if user chooses a non-Arabic UI
+            const radioToSelect = (lang === 'ar') ? 'ar' : 'en';
+            const radioEl = document.querySelector(`input[name="negotiationLang"][value="${radioToSelect}"]`);
+            if (radioEl) radioEl.checked = true;
+
+            // Reload scenario text in the selected language
+            loadScenario();
+
+            // Re-render Matrix & Official PO immediately if data already exists!
+            if (lastAgentData) {
+                populateMatrixAndPO(lastAgentData);
+            }
+        }
+
         function loadScenario() {
             const val = document.getElementById('scenarioSelect').value;
-            document.getElementById('rfqInput').value = scenarios[val].text;
+            document.getElementById('rfqInput').value = scenarios[val][currentUILang] || scenarios[val].ar;
             document.getElementById('budgetInput').value = scenarios[val].budget;
         }
 
         function toggleVoice() {
             voiceEnabled = !voiceEnabled;
+            const t = i18n[currentUILang];
             document.getElementById('voiceIcon').innerText = voiceEnabled ? '🔊' : '🔇';
-            document.getElementById('voiceStatusText').innerText = voiceEnabled ? 'الصوت الحي: مفعل' : 'الصوت الحي: مكتوم';
+            document.getElementById('voiceStatusText').innerText = voiceEnabled ? t.voiceOn : t.voiceOff;
             if (!voiceEnabled && 'speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
             }
@@ -337,8 +1025,8 @@
             const filename = fileInput.files.length > 0 ? fileInput.files[0].name : "Invoice_Dubai_RFQ.pdf";
             const category = document.getElementById('scenarioSelect').value;
             const btn = event.target;
-            btn.innerText = "جاري القراءة...";
-            activateTool('tool-ocr', 'يقرأ الملف...');
+            btn.innerText = currentUILang === 'ar' ? "جاري القراءة..." : "Reading...";
+            activateTool('tool-ocr', currentUILang === 'ar' ? 'يقرأ الملف...' : 'Scanning...');
 
             try {
                 const res = await fetch(`${API_BASE}/api/analyze-document`, {
@@ -351,11 +1039,15 @@
                     document.getElementById('rfqInput').value = result.extracted_requirements;
                 }
             } catch (e) {
-                document.getElementById('rfqInput').value = `تم استخراج المواصفات من الملف (${filename}): ` + scenarios[category].text;
+                const prefix = currentUILang === 'ar' ? `تم استخراج المواصفات من الملف (${filename}): ` : `Extracted specs from (${filename}): `;
+                document.getElementById('rfqInput').value = prefix + (scenarios[category][currentUILang] || scenarios[category].ar);
             } finally {
-                activateTool('tool-ocr', 'تم الاستخراج ✓', true);
-                addLog('reasoningLog', `<span class="text-amber-400">[أداة Vision OCR]</span> تم تحليل الملف (${filename}) واستخراج المواصفات الفنية بنجاح.`);
-                btn.innerText = "تحليل الملف";
+                activateTool('tool-ocr', currentUILang === 'ar' ? 'تم الاستخراج ✓' : 'Extracted ✓', true);
+                const msg = currentUILang === 'ar'
+                    ? `<span class="text-amber-400">[أداة Vision OCR]</span> تم تحليل الملف (${filename}) واستخراج المواصفات الفنية بنجاح.`
+                    : `<span class="text-amber-400">[Vision OCR Tool]</span> Successfully analyzed (${filename}) and extracted technical specs.`;
+                addLog('reasoningLog', msg);
+                btn.innerText = i18n[currentUILang].ocrBtn;
             }
         }
 
@@ -390,11 +1082,15 @@
             }
         }
 
-        function speakLiveDialog(text, role = 'agent', cb) {
+        function speakLiveDialog(text, role = 'agent', callLang = 'ar', cb) {
             const waveBox = document.getElementById('waveformBox');
             const speakerText = document.getElementById('activeSpeakerText');
 
-            speakerText.innerText = role === 'agent' ? '🎙️ يتحدث الآن: وكيل مُورّد الذكي...' : '🗣️ يتحدث الآن: مدير مبيعات المورد...';
+            if (callLang === 'en') {
+                speakerText.innerText = role === 'agent' ? '🎙️ Speaking: Mowarrid AI Agent...' : '🗣️ Speaking: Supplier Sales Director...';
+            } else {
+                speakerText.innerText = role === 'agent' ? '🎙️ يتحدث الآن: وكيل مُورّد الذكي...' : '🗣️ يتحدث الآن: مدير مبيعات المورد...';
+            }
             speakerText.className = role === 'agent' ? 'text-[10px] text-amber-400 font-bold' : 'text-[10px] text-emerald-400 font-bold';
 
             if (!voiceEnabled || !('speechSynthesis' in window)) {
@@ -407,7 +1103,7 @@
             }
             window.speechSynthesis.cancel();
             const u = new SpeechSynthesisUtterance(text);
-            u.lang = 'ar-AE';
+            u.lang = (callLang === 'en') ? 'en-US' : 'ar-AE';
             u.rate = role === 'agent' ? 1.08 : 1.02;
             u.pitch = role === 'agent' ? 0.95 : 1.15;
             u.onstart = () => waveBox.classList.remove('wave-paused');
@@ -433,16 +1129,21 @@
             }, 1000);
         }
 
-        function stopCallTimer() {
+        function stopCallTimer(callLang = 'ar') {
             clearInterval(callTimerInterval);
             document.getElementById('waveformBox').classList.add('wave-paused');
-            document.getElementById('activeSpeakerText').innerText = '✓ انتهت المكالمة بنجاح (تم توثيق الخصم)';
+            document.getElementById('activeSpeakerText').innerText = (callLang === 'en')
+                ? '✓ Call Completed (Discount Confirmed & Logged)'
+                : '✓ انتهت المكالمة بنجاح (تم توثيق الخصم)';
         }
 
         async function runAutonomousAgent() {
             const btn = document.getElementById('startBtn');
+            const callLang = document.querySelector('input[name="negotiationLang"]:checked').value;
+            const isAr = (currentUILang === 'ar');
+
             btn.disabled = true;
-            btn.innerHTML = '⏳ جاري التخطيط والتفاوض الصوتي...';
+            btn.innerHTML = isAr ? '⏳ جاري التخطيط والتفاوض الصوتي...' : '⏳ Autonomous Planning & Voice Negotiating...';
 
             document.getElementById('reasoningLog').innerHTML = '';
             document.getElementById('commsLog').innerHTML = '';
@@ -458,8 +1159,10 @@
             };
 
             setPillar(1);
-            activateTool('tool-ocr', 'يحلل الطلب...');
-            addLog('reasoningLog', '<span class="text-amber-400">[01. فهم المشكلة]</span> إرسال تفاصيل الطلب إلى خادم FastAPI وتحليل المواصفات...');
+            activateTool('tool-ocr', isAr ? 'يحلل الطلب...' : 'Analyzing...');
+            addLog('reasoningLog', isAr
+                ? '<span class="text-amber-400">[01. فهم المشكلة]</span> إرسال تفاصيل الطلب إلى خادم FastAPI وتحليل المواصفات...'
+                : '<span class="text-amber-400">[01. Problem Analysis]</span> Sending RFQ payload to FastAPI server & parsing specs...');
 
             let data;
             try {
@@ -475,14 +1178,38 @@
                 const negP = Math.round(initP * 0.851);
                 const vatP = Math.round(negP * 1.05);
                 data = {
-                    customs: { hs_code: "8419.81.00", description: "معدات وتجهيزات تجارية معتمدة - جمارك دبي" },
-                    winner: { name: "شركة الخليج للتجهيزات الفندقية ذ.م.م", zone: "المنطقة الحرة بجبل علي (JAFZA)", license_no: "CN-449102", phone: "+971-4-881-4200", delivery_hours: 24, discount_pct: 14.9, initial_price: initP, negotiated_price: negP, final_with_vat: vatP, is_winner: true },
+                    customs: {
+                        hs_code: "8419.81.00",
+                        description: isAr ? "معدات وتجهيزات تجارية معتمدة - جمارك دبي" : "Certified Commercial Equipment - Dubai Customs"
+                    },
+                    winner: {
+                        name: "شركة الخليج للتجهيزات الفندقية ذ.م.م",
+                        zone: "المنطقة الحرة بجبل علي (JAFZA)",
+                        license_no: "CN-449102",
+                        phone: "+971-4-881-4200",
+                        delivery_hours: 24,
+                        discount_pct: 14.9,
+                        initial_price: initP,
+                        negotiated_price: negP,
+                        final_with_vat: vatP,
+                        is_winner: true
+                    },
                     suppliers: [
-                        { name: "شركة الخليج للتجهيزات الفندقية ذ.م.م", zone: "جبل علي (JAFZA)", discount_pct: 14.9, initial_price: initP, negotiated_price: negP, final_with_vat: vatP, delivery_hours: 24, is_winner: true },
-                        { name: "الإمارات للمعدات التجارية والصناعية", zone: "القوز الصناعية 3", discount_pct: 9.1, initial_price: Math.round(payload.budget * 1.06), negotiated_price: Math.round(payload.budget * 0.96), final_with_vat: Math.round(payload.budget * 1.01), delivery_hours: 48, is_winner: false }
+                        {
+                            name: "شركة الخليج للتجهيزات الفندقية ذ.م.م",
+                            zone: "جبل علي (JAFZA)",
+                            discount_pct: 14.9, initial_price: initP, negotiated_price: negP, final_with_vat: vatP, delivery_hours: 24, is_winner: true
+                        },
+                        {
+                            name: "الإمارات للمعدات التجارية والصناعية",
+                            zone: "القوز الصناعية 3",
+                            discount_pct: 9.1, initial_price: Math.round(payload.budget * 1.06), negotiated_price: Math.round(payload.budget * 0.96), final_with_vat: Math.round(payload.budget * 1.01), delivery_hours: 48, is_winner: false
+                        }
                     ],
                     savings: initP - negP,
-                    ai_plan: "تحليل الأولوية: توجيه البحث إلى المنطقة الحرة بجبل علي (JAFZA) لضمان الإعفاء الجمركي والتسليم خلال 24 ساعة.",
+                    ai_plan: isAr
+                        ? "تحليل الأولوية: توجيه البحث إلى المنطقة الحرة بجبل علي (JAFZA) لضمان الإعفاء الجمركي والتسليم خلال 24 ساعة."
+                        : "Priority Analysis: Routing sourcing to Jebel Ali Free Zone (JAFZA) for customs exemption & 24h delivery.",
                     voice_dialog: {
                         agent_pitch: `مرحباً شركة الخليج، معكم وكيل المشتريات الذكي مُورّد. عرضكم الأولي هو ${initP} درهم. لدينا تعميد فوري اليوم ودفع نقدي إذا تم تخفيض السعر إلى ${negP} درهم شامل التوصيل.`,
                         vendor_reply: `أهلاً بك. بما أن الدفع نقدي والتعميد اليوم، نحن موافقون على السعر الجديد بقيمة ${negP} درهم، وسنحرك الشاحنة خلال 24 ساعة.`
@@ -490,43 +1217,55 @@
                 };
             }
 
+            const winnerLocalized = localizeVendorName(data.winner.name, 0);
+
+            // If user selected English negotiation call, provide English voice dialog script
+            const activeDialog = (callLang === 'en') ? {
+                agent_pitch: `Hello ${winnerLocalized} team, this is Mowarrid Autonomous Procurement Agent in Dubai. Your initial quote is ${data.winner.initial_price} AED. We have immediate PO approval and instant transfer today if you reduce the price to ${data.winner.negotiated_price} AED including delivery.`,
+                vendor_reply: `Hello Mowarrid team. Since payment is immediate today, we accept the revised price of ${data.winner.negotiated_price} AED and will dispatch the shipment from Jebel Ali within 24 hours.`
+            } : data.voice_dialog;
+
             setTimeout(() => {
-                activateTool('tool-ocr', 'مكتمل ✓', true);
+                activateTool('tool-ocr', isAr ? 'مكتمل ✓' : 'Done ✓', true);
                 setPillar(2);
-                addLog('reasoningLog', `<span class="text-sky-400">[02. التخطيط الذاتي]</span> ${data.ai_plan}`);
+                addLog('reasoningLog', `<span class="text-sky-400">[02. ${isAr ? 'التخطيط الذاتي' : 'Autonomous Plan'}]</span> ${data.ai_plan}`);
             }, 800);
 
             setTimeout(() => {
                 setPillar(3);
-                activateTool('tool-db', `${data.suppliers.length} موردين ✓`, true);
+                activateTool('tool-db', `${data.suppliers.length} ${isAr ? 'موردين ✓' : 'Vendors ✓'}`, true);
                 activateTool('tool-customs', `HS ${data.customs.hs_code} ✓`, true);
-                addLog('reasoningLog', `<span class="text-purple-400">[03. أداة جمارك دبي]</span> الرمز الجمركي المعتمد: <b>${data.customs.hs_code}</b> (${data.customs.description}).`);
+                addLog('reasoningLog', `<span class="text-purple-400">[03. ${isAr ? 'أداة جمارك دبي' : 'Dubai Customs Tool'}]</span> HS Code: <b>${data.customs.hs_code}</b>.`);
                 addLog('commsLog', `<div class="p-2 rounded bg-gray-800/90 border-r-2 border-emerald-500">
-                    <div class="font-bold text-emerald-400">WhatsApp Business API -> ${data.winner.name}</div>
-                    <div class="text-gray-300 mt-0.5">تم استلام العرض الأولي بقيمة ${data.winner.initial_price.toLocaleString()} درهم. جاري الاتصال الهاتفي لطلب خصم...</div>
+                    <div class="font-bold text-emerald-400">WhatsApp Business API -> ${winnerLocalized}</div>
+                    <div class="text-gray-300 mt-0.5">${isAr
+                        ? `تم استلام العرض الأولي بقيمة ${data.winner.initial_price.toLocaleString()} درهم. جاري الاتصال الهاتفي لطلب خصم...`
+                        : `Initial quote received at ${data.winner.initial_price.toLocaleString()} AED. Initiating SIP voice call to negotiate discount...`}</div>
                 </div>`);
             }, 1800);
 
             setTimeout(() => {
-                activateTool('tool-comm', 'مكالمة نشطة...');
+                activateTool('tool-comm', isAr ? 'مكالمة نشطة...' : 'Active Call...');
                 document.getElementById('liveCallBanner').classList.remove('hidden');
-                document.getElementById('callStatusTitle').innerText = `مكالمة SIP حية: ${data.winner.phone}`;
+                document.getElementById('callStatusTitle').innerText = (callLang === 'en')
+                    ? `Live SIP Call (EN): ${data.winner.phone}`
+                    : `مكالمة SIP حية (AR): ${data.winner.phone}`;
                 startCallTimer();
 
                 playPhoneRing(() => {
                     addLog('commsLog', `<div class="p-2 rounded bg-amber-950/40 border-r-2 border-amber-500">
-                        <div class="font-bold text-amber-400">📞 وكيل مُورّد (صوت مباشر):</div>
-                        <div class="text-gray-200 mt-0.5">"${data.voice_dialog.agent_pitch}"</div>
+                        <div class="font-bold text-amber-400">📞 ${callLang === 'en' ? 'Mowarrid Agent (Live EN Voice):' : 'وكيل مُورّد (صوت مباشر):'}</div>
+                        <div class="text-gray-200 mt-0.5">"${activeDialog.agent_pitch}"</div>
                     </div>`);
 
-                    speakLiveDialog(data.voice_dialog.agent_pitch, 'agent', () => {
+                    speakLiveDialog(activeDialog.agent_pitch, 'agent', callLang, () => {
                         addLog('commsLog', `<div class="p-2 rounded bg-emerald-950/40 border-r-2 border-emerald-500">
-                            <div class="font-bold text-emerald-400">🗣️ رد ${data.winner.name}:</div>
-                            <div class="text-gray-100 mt-0.5">"${data.voice_dialog.vendor_reply}"</div>
+                            <div class="font-bold text-emerald-400">🗣️ ${callLang === 'en' ? `Supplier Reply (${winnerLocalized}):` : `رد ${winnerLocalized}:`}</div>
+                            <div class="text-gray-100 mt-0.5">"${activeDialog.vendor_reply}"</div>
                         </div>`);
 
-                        speakLiveDialog(data.voice_dialog.vendor_reply, 'vendor', () => {
-                            stopCallTimer();
+                        speakLiveDialog(activeDialog.vendor_reply, 'vendor', callLang, () => {
+                            stopCallTimer(callLang);
                             renderResults(data);
                         });
                     });
@@ -535,53 +1274,85 @@
         }
 
         function renderResults(data) {
+            lastAgentData = data;
+            const isAr = (currentUILang === 'ar');
+            const t = i18n[currentUILang];
+
             setPillar(4);
-            activateTool('tool-comm', 'تم الحسم صوتياً ✓', true);
-            addLog('reasoningLog', `<span class="text-emerald-400 font-bold">[04. تنفيذ المهام]</span> اكتمل التفاوض! تم توفير ${data.savings.toLocaleString()} درهم وإصدار أمر الشراء الرسمي.`);
+            activateTool('tool-comm', isAr ? 'تم الحسم صوتياً ✓' : 'Negotiated ✓', true);
+            addLog('reasoningLog', isAr
+                ? `<span class="text-emerald-400 font-bold">[04. تنفيذ المهام]</span> اكتمل التفاوض! تم توفير ${data.savings.toLocaleString()} درهم وإصدار أمر الشراء الرسمي.`
+                : `<span class="text-emerald-400 font-bold">[04. Task Execution]</span> Negotiation complete! Saved ${data.savings.toLocaleString()} AED & generated Official PO.`);
 
             document.getElementById('startBtn').disabled = false;
-            document.getElementById('startBtn').innerHTML = '🔄 تشغيل دورة تفاوض جديدة';
+            document.getElementById('startBtn').innerHTML = `<span id="ui-start-btn">${t.rerunBtn}</span>`;
             document.getElementById('finalActions').classList.remove('hidden');
 
+            populateMatrixAndPO(data);
+        }
+
+        // Dynamically populates and translates both the SQLite Matrix and the Official PO Modal in all 7 languages
+        function populateMatrixAndPO(data) {
+            const t = i18n[currentUILang];
+            const isAr = (currentUILang === 'ar');
+
+            const winnerNameLoc = localizeVendorName(data.winner.name, 0);
+            const winnerZoneLoc = localizeZoneName(data.winner.zone, 0);
+
             const badge = document.getElementById('savingsBadge');
-            badge.innerText = `تم توفير ${data.savings.toLocaleString()} درهم + 6 أيام عمل!`;
+            badge.innerText = t.savingsFmt(data.savings.toLocaleString());
             badge.classList.remove('hidden');
 
-            document.getElementById('finalRecommendationText').innerHTML = `✅ <strong>توصية الوكيل النهائية:</strong> التعاقد مع <strong>${data.winner.name} (${data.winner.zone})</strong> بخصم ${data.winner.discount_pct}% وتسليم خلال ${data.winner.delivery_hours} ساعة.`;
+            document.getElementById('finalRecommendationText').innerHTML = t.recFmt(
+                winnerNameLoc,
+                winnerZoneLoc,
+                data.winner.discount_pct,
+                data.winner.delivery_hours
+            );
 
             let rowsHtml = '';
             data.suppliers.forEach((s, idx) => {
+                const sNameLoc = localizeVendorName(s.name, idx);
+                const sZoneLoc = localizeZoneName(s.zone, idx);
+                const statusBadge = s.is_winner
+                    ? `<span class="px-2 py-1 rounded bg-emerald-500/20 text-emerald-300 font-bold">${t.statusWin}</span>`
+                    : `<span class="text-gray-500">${t.statusBackup}</span>`;
+                const rowHighlight = s.is_winner
+                    ? (isAr ? 'bg-emerald-950/30 border-r-4 border-r-emerald-500' : 'bg-emerald-950/30 border-l-4 border-l-emerald-500')
+                    : '';
                 rowsHtml += `
-                    <tr class="${s.is_winner ? 'bg-emerald-950/30 border-r-4 border-r-emerald-500' : ''}">
-                        <td class="py-3 px-3 font-bold text-white">${idx + 1}. ${s.name} <span class="text-gray-400 text-[10px]">(${s.zone})</span></td>
+                    <tr class="${rowHighlight}">
+                        <td class="py-3 px-3 font-bold text-white">${idx + 1}. ${sNameLoc} <span class="text-gray-400 text-[10px]">(${sZoneLoc})</span></td>
                         <td class="py-3 px-3 font-mono text-amber-300">${data.customs.hs_code}</td>
-                        <td class="py-3 px-3 line-through text-gray-500">${s.initial_price.toLocaleString()} درهم</td>
-                        <td class="py-3 px-3 font-bold text-emerald-400">${s.negotiated_price.toLocaleString()} درهم (-${s.discount_pct}%)</td>
-                        <td class="py-3 px-3 font-bold text-white">${s.final_with_vat.toLocaleString()} درهم</td>
-                        <td class="py-3 px-3 text-emerald-400">${s.delivery_hours} ساعة</td>
-                        <td class="py-3 px-3">${s.is_winner ? '<span class="px-2 py-1 rounded bg-emerald-500/20 text-emerald-300 font-bold">معتمد للتنفيذ</span>' : '<span class="text-gray-500">احتياطي</span>'}</td>
+                        <td class="py-3 px-3 line-through text-gray-500">${s.initial_price.toLocaleString()} ${t.curr}</td>
+                        <td class="py-3 px-3 font-bold text-emerald-400">${s.negotiated_price.toLocaleString()} ${t.curr} (-${s.discount_pct}%)</td>
+                        <td class="py-3 px-3 font-bold text-white">${s.final_with_vat.toLocaleString()} ${t.curr}</td>
+                        <td class="py-3 px-3 text-emerald-400">${s.delivery_hours} ${t.hrs}</td>
+                        <td class="py-3 px-3">${statusBadge}</td>
                     </tr>
                 `;
             });
             document.getElementById('resultsTable').innerHTML = rowsHtml;
 
-            document.getElementById('poVendorName').innerText = data.winner.name;
-            document.getElementById('poVendorZone').innerText = data.winner.zone;
-            document.getElementById('poVendorLicense').innerText = `رقم الرخصة التجارية: ${data.winner.license_no}`;
+            // Populate Official PO Modal in current selected language
+            document.getElementById('poVendorName').innerText = winnerNameLoc;
+            document.getElementById('poVendorZone').innerText = winnerZoneLoc;
+            document.getElementById('poVendorLicense').innerText = `${t.poLicensePrefix}${data.winner.license_no}`;
             document.getElementById('poHsCode').innerText = `HS Code: ${data.customs.hs_code}`;
-            document.getElementById('poDeliveryTime').innerText = `التسليم المجدول خلال: ${data.winner.delivery_hours} ساعة`;
+            document.getElementById('poDeliveryTime').innerText = `${t.poDeliveryPrefix}${data.winner.delivery_hours} ${t.hrs}`;
             document.getElementById('poItemsDesc').innerText = document.getElementById('rfqInput').value;
-            document.getElementById('poFinalTotal').innerText = `${data.winner.final_with_vat.toLocaleString()} درهم إماراتي`;
+            document.getElementById('poFinalTotal').innerText = `${data.winner.final_with_vat.toLocaleString()} ${t.curr}`;
         }
 
         function startSpeechToText() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRecognition) {
-                alert("يرجى استخدام متصفح Chrome أو Edge.");
+                alert(currentUILang === 'ar' ? "يرجى استخدام متصفح Chrome أو Edge." : "Please use Chrome or Edge browser for voice dictation.");
                 return;
             }
+            const langMap = { ar: 'ar-AE', en: 'en-US', fr: 'fr-FR', es: 'es-ES', ru: 'ru-RU', zh: 'zh-CN', ko: 'ko-KR' };
             const recognition = new SpeechRecognition();
-            recognition.lang = 'ar-AE';
+            recognition.lang = langMap[currentUILang] || 'ar-AE';
             recognition.onresult = (e) => {
                 document.getElementById('rfqInput').value = e.results[0][0].transcript;
             };
